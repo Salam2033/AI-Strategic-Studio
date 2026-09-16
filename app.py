@@ -25,10 +25,7 @@ def analyze(request: AnalysisRequest):
 
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
-        return {
-            "status": "error",
-            "message": "کلید OPENAI_API_KEY در Render تنظیم نشده است."
-        }
+        return {"status": "error", "message": "کلید OPENAI_API_KEY در Render تنظیم نشده است."}
 
     try:
         client = OpenAI(api_key=api_key)
@@ -54,4 +51,8 @@ def analyze(request: AnalysisRequest):
             }
         }
     except Exception as e:
-        return {"status": "error", "message": "خطا در اتصال به موتور AI."}
+        error_text = str(e).strip()
+        return {
+            "status": "error",
+            "message": "خطا در موتور AI: " + (error_text[:500] if error_text else "خطای نامشخص")
+        }
