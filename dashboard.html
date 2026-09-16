@@ -2,20 +2,53 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>AI Strategic Studio</title>
-<style>*{box-sizing:border-box}body{margin:0;font-family:Arial,Tahoma,sans-serif;background:#0b1220;color:#eef2ff}header{padding:22px 18px;background:#111a2e;border-bottom:1px solid #263451}h1{margin:0;font-size:25px}header p{margin:7px 0 0;color:#94a3b8}.wrap{max-width:1100px;margin:auto;padding:18px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:#151f33;border:1px solid #263451;border-radius:16px;padding:18px;box-shadow:0 8px 25px rgba(0,0,0,.18)}.stat{font-size:25px;font-weight:bold;margin-top:10px}.muted{color:#94a3b8;font-size:13px}.ok{color:#4ade80}.section{margin-top:18px}.section h2{font-size:18px;margin:0 0 12px}.modules{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.module{padding:16px;border-radius:13px;background:#1b2740;border:1px solid #2b3a5a}.module b{display:block;margin-bottom:7px}.search{display:flex;gap:8px}.search input{flex:1;background:#0f172a;border:1px solid #334155;border-radius:10px;padding:13px;color:white;font-size:14px}.search button{background:#2563eb;color:white;border:0;border-radius:10px;padding:0 18px;font-size:14px}.matrix{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.item{background:#111a2e;border-radius:10px;padding:13px}.item strong{display:block;margin-bottom:5px}#result{line-height:1.9;white-space:pre-line}.error{color:#fca5a5}.success{color:#86efac}footer{text-align:center;color:#64748b;padding:25px 0;font-size:12px}@media(max-width:700px){.grid{grid-template-columns:repeat(2,1fr)}.modules{grid-template-columns:1fr}.matrix{grid-template-columns:1fr}.search button{padding:0 12px}}
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#0b1220;color:#eef2ff;line-height:1.8}header{padding:22px 18px;background:#111a2e;border-bottom:1px solid #263451}h1{margin:0;font-size:25px}header p{margin:7px 0 0;color:#94a3b8}.wrap{max-width:1100px;margin:auto;padding:18px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:#151f33;border:1px solid #263451;border-radius:16px;padding:18px;box-shadow:0 8px 25px rgba(0,0,0,.18)}.stat{font-size:25px;font-weight:bold;margin-top:10px}.muted{color:#94a3b8;font-size:13px}.ok{color:#4ade80}.section{margin-top:18px}.section h2{font-size:18px;margin:0 0 12px}.modules{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.module{padding:16px;border-radius:13px;background:#1b2740;border:1px solid #2b3a5a}.module b{display:block;margin-bottom:7px}.search{display:flex;gap:8px}.search input{flex:1;background:#0f172a;border:1px solid #334155;border-radius:10px;padding:13px;color:white;font-size:14px}.search button{background:#2563eb;color:white;border:0;border-radius:10px;padding:0 18px;font-size:14px;cursor:pointer}.search button:disabled{opacity:.6;cursor:wait}.matrix{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.item{background:#111a2e;border-radius:10px;padding:13px}.item strong{display:block;margin-bottom:5px}.error{color:#fca5a5}.success{color:#86efac}.analysis-result{margin-top:18px;color:#d1fae5;font-size:16px;text-align:right;direction:rtl}.analysis-result h2,.analysis-result h3{color:#86efac;margin:18px 0 8px;line-height:1.5}.analysis-result h2{font-size:21px;border-bottom:1px solid #2b3a5a;padding-bottom:7px}.analysis-result h3{font-size:18px}.analysis-result p{margin:9px 0}.analysis-result strong{color:#a7f3d0;font-weight:700}.analysis-result ul,.analysis-result ol{margin:8px 0;padding-right:24px}.analysis-result li{margin:5px 0}.analysis-result blockquote{border-right:3px solid #4ade80;margin:12px 0;padding:6px 12px;color:#cbd5e1;background:#111a2e;border-radius:6px}.analysis-result code{background:#0f172a;padding:2px 6px;border-radius:5px;font-family:monospace;direction:ltr;unicode-bidi:embed}.analysis-meta{margin-top:18px;padding-top:12px;border-top:1px solid #263451;color:#94a3b8;font-size:13px}.analysis-empty{color:#94a3b8;font-size:13px}footer{text-align:center;color:#64748b;padding:25px 0;font-size:12px}@media(max-width:700px){.grid{grid-template-columns:repeat(2,1fr)}.modules{grid-template-columns:1fr}.matrix{grid-template-columns:1fr}.search button{padding:0 12px}.analysis-result{font-size:15px}}
 </style></head>
 <body><header><div class="wrap"><h1>AI Strategic Studio</h1><p>داشبورد تحلیلی و اتاق فکر هوش مصنوعی</p></div></header><div class="wrap">
 <div class="grid"><div class="card"><div class="muted">وضعیت سیستم</div><div class="stat ok" id="status">در حال بررسی...</div></div><div class="card"><div class="muted">موتور تحلیل</div><div class="stat">فعال</div></div><div class="card"><div class="muted">پایگاه دانش</div><div class="stat">آماده</div></div><div class="card"><div class="muted">AI Agent</div><div class="stat">آماده</div></div></div>
-<div class="section card"><h2>🔎 جستجو و تحلیل</h2><div class="search"><input id="query" placeholder="موضوع مورد نظر برای تحلیل را وارد کنید..."><button onclick="analyze()">تحلیل</button></div><p id="result" class="muted">برای شروع، موضوعی وارد کنید.</p></div>
+<div class="section card"><h2>🔎 جستجو و تحلیل</h2><div class="search"><input id="query" placeholder="موضوع مورد نظر برای تحلیل را وارد کنید..."><button id="analyzeBtn" onclick="analyze()">تحلیل</button></div><div id="result" class="analysis-empty">برای شروع، موضوعی وارد کنید.</div></div>
 <div class="section"><h2>ماژول‌های اصلی</h2><div class="modules"><div class="module"><b>🧠 RAG Engine</b><span class="muted">بازیابی و ترکیب اطلاعات از منابع دانشی</span></div><div class="module"><b>📚 Knowledge Base</b><span class="muted">مدیریت اسناد و منابع تحقیقاتی</span></div><div class="module"><b>📊 Analysis Engine</b><span class="muted">تحلیل روندها، عوامل و سناریوها</span></div><div class="module"><b>🤖 AI Agent</b><span class="muted">دستیار هوشمند برای کارهای تحلیلی</span></div></div></div>
 <div class="section card"><h2>ماتریس پایش</h2><div class="matrix"><div class="item"><strong>سیاسی</strong><span class="muted">پایش تحولات و روندها</span></div><div class="item"><strong>اقتصادی</strong><span class="muted">شاخص‌ها و ریسک‌های کلان</span></div><div class="item"><strong>امنیتی</strong><span class="muted">رصد رویدادها و ارزیابی ریسک</span></div></div></div><footer>AI Strategic Studio • نسخه اولیه</footer></div>
 <script>
 fetch('/api').then(r=>r.json()).then(d=>{document.getElementById('status').textContent=d.status==='online'?'آنلاین':'آفلاین'}).catch(()=>document.getElementById('status').textContent='خطا');
+
+function escapeHtml(value){
+ return String(value??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+
+function renderMarkdown(text){
+ let s=escapeHtml(text).replace(/\r\n?/g,'\n');
+ s=s.replace(/^### (.+)$/gm,'<h3>$1</h3>');
+ s=s.replace(/^## (.+)$/gm,'<h2>$1</h2>');
+ s=s.replace(/^# (.+)$/gm,'<h2>$1</h2>');
+ s=s.replace(/^> (.+)$/gm,'<blockquote>$1</blockquote>');
+ s=s.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+ s=s.replace(/__(.+?)__/g,'<strong>$1</strong>');
+ s=s.replace(/`([^`]+)`/g,'<code>$1</code>');
+ s=s.replace(/^\s*[-*] (.+)$/gm,'<li>$1</li>');
+ s=s.replace(/(?:<li>[^]*?<\/li>)(?=\s*(?:<li>|$))/g, m=>m);
+ s=s.replace(/((?:<li>.*<\/li>\s*)+)/g,'<ul>$1</ul>');
+ const blocks=s.split(/\n{2,}/).map(block=>block.trim()).filter(Boolean);
+ return blocks.map(block=>{
+   if(/^<(h2|h3|blockquote|ul|ol)/.test(block)) return block;
+   if(block.startsWith('<ul>')) return block;
+   return '<p>'+block.replace(/\n/g,'<br>')+'</p>';
+ }).join('');
+}
+
+function section(title,text){
+ if(!text) return '';
+ return '<h3>'+escapeHtml(title)+'</h3>'+renderMarkdown(text);
+}
+
 async function analyze(){
  const q=document.getElementById('query').value.trim();
  const r=document.getElementById('result');
- r.className='muted';
+ const btn=document.getElementById('analyzeBtn');
+ r.className='analysis-empty';
  if(!q){r.textContent='لطفاً یک موضوع وارد کنید.';return}
+ btn.disabled=true;
  r.textContent='در حال تحلیل...';
  try{
   const res=await fetch('/api/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:q})});
@@ -30,11 +63,15 @@ async function analyze(){
    r.textContent='خطا: پاسخ موتور تحلیل ناقص است.';
    return;
   }
-  r.className='success';
-  r.textContent='خلاصه: '+d.analysis.summary+'\nسیاسی: '+d.analysis.political+'\nاقتصادی: '+d.analysis.economic+'\nامنیتی: '+d.analysis.security+'\n\n'+d.analysis.next_step;
+  r.className='analysis-result';
+  r.innerHTML='<h2>نتیجه تحلیل</h2>'+renderMarkdown(d.analysis.summary)+section('تحلیل سیاسی',d.analysis.political)+section('تحلیل اقتصادی',d.analysis.economic)+section('تحلیل امنیتی',d.analysis.security)+'<div class="analysis-meta">'+escapeHtml(d.analysis.next_step||'موتور AI فعال است.')+'</div>';
  }catch(e){
   r.className='error';
   r.textContent='خطا در ارتباط با API تحلیل: '+e.message;
+ }finally{
+  btn.disabled=false;
  }
 }
+
+document.getElementById('query').addEventListener('keydown',e=>{if(e.key==='Enter') analyze();});
 </script></body></html>
