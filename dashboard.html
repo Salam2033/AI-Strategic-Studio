@@ -1,1 +1,53 @@
 
+<!DOCTYPE html>
+<html>
+<head>
+<title>AI Strategic Studio Dashboard</title>
+<style>
+body{
+font-family:Arial;
+background:#111827;
+color:white;
+padding:30px;
+}
+.card{
+background:#1f2937;
+padding:20px;
+border-radius:15px;
+margin:15px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>AI Strategic Studio</h1>
+
+<div class="card">
+<h2>System Status</h2>
+<p id="status">Loading...</p>
+</div>
+
+<div class="card">
+<h2>Modules</h2>
+<ul>
+<li>RAG Engine</li>
+<li>Knowledge Base</li>
+<li>Analysis Engine</li>
+<li>AI Agent</li>
+</ul>
+</div>
+
+<script>
+
+fetch("/api")
+.then(response=>response.json())
+.then(data=>{
+document.getElementById("status").innerHTML =
+data.system + " : " + data.status;
+});
+
+</script>
+
+</body>
+</html>
