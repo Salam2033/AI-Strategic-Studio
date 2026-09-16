@@ -1,10 +1,12 @@
 import os
+import logging
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from openai import OpenAI
 
 app = FastAPI()
+logger = logging.getLogger("uvicorn.error")
 
 class AnalysisRequest(BaseModel):
     query: str
@@ -12,18 +14,29 @@ class AnalysisRequest(BaseModel):
 
 def get_openai_key():
     """Find a configured OpenAI key without exposing its value."""
-    # Prefer the canonical variable, then tolerate previously-created variants.
     candidates = ["OPENAI_API_KEY", "OPENAI_API_KEY_2", "OPENAI_API_KEY_OLD"]
     for name in candidates:
         value = os.getenv(name)
         if value and value.strip():
             return value.strip(), name
 
-    # Last-resort compatibility for an accidentally suffixed OPENAI_API_KEY_* variable.
     for name, value in os.environ.items():
         if name.startswith("OPENAI_API_KEY_") and value and value.strip():
             return value.strip(), name
     return None, None
+
+
+@app.on_event("startup")
+def startup_diagnostics():
+    key, key_name = get_openai_key()
+    model = os.getenv("OPENAI_MODEL", "gpt-5.6-luna").strip() or "gpt-5.6-luna"
+    openai_names = sorted(name for name in os.environ if name.startswith("OPENAI_API_KEY"))
+    # Safe diagnostics only: never log the secret value.
+    logger.info(
+        "OPENAI_RUNTIME_DIAGNOSTICS configured=%s source=%s key_length=%s variables=%s model=%s",
+        bool(key), key_name or "NONE", len(key) if key else 0, openai_names, model
+    )
+
 
 @app.get("/")
 def home():
