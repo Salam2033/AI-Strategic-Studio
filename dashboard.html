@@ -1,42 +1,12 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Strategic Studio</title>
-<style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,Tahoma,sans-serif;background:#0b1220;color:#eef2ff}header{padding:22px 18px;background:#111a2e;border-bottom:1px solid #263451}h1{margin:0;font-size:25px}header p{margin:7px 0 0;color:#94a3b8}.wrap{max-width:1100px;margin:auto;padding:18px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:#151f33;border:1px solid #263451;border-radius:16px;padding:18px;box-shadow:0 8px 25px rgba(0,0,0,.18)}.stat{font-size:25px;font-weight:bold;margin-top:10px}.muted{color:#94a3b8;font-size:13px}.ok{color:#4ade80}.section{margin-top:18px}.section h2{font-size:18px;margin:0 0 12px}.modules{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.module{padding:16px;border-radius:13px;background:#1b2740;border:1px solid #2b3a5a}.module b{display:block;margin-bottom:7px}.search{display:flex;gap:8px}.search input{flex:1;background:#0f172a;border:1px solid #334155;border-radius:10px;padding:13px;color:white;font-size:14px}.search button{background:#2563eb;color:white;border:0;border-radius:10px;padding:0 18px;font-size:14px}.matrix{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.item{background:#111a2e;border-radius:10px;padding:13px}.item strong{display:block;margin-bottom:5px}footer{text-align:center;color:#64748b;padding:25px 0;font-size:12px}@media(max-width:700px){.grid{grid-template-columns:repeat(2,1fr)}.modules{grid-template-columns:1fr}.matrix{grid-template-columns:1fr}.search button{padding:0 12px}}
-</style>
-</head>
-<body>
-<header><div class="wrap"><h1>AI Strategic Studio</h1><p>داشبورد تحلیلی و اتاق فکر هوش مصنوعی</p></div></header>
-<div class="wrap">
-<div class="grid">
-<div class="card"><div class="muted">وضعیت سیستم</div><div class="stat ok" id="status">در حال بررسی...</div></div>
-<div class="card"><div class="muted">موتور تحلیل</div><div class="stat">فعال</div></div>
-<div class="card"><div class="muted">پایگاه دانش</div><div class="stat">آماده</div></div>
-<div class="card"><div class="muted">AI Agent</div><div class="stat">آماده</div></div>
-</div>
-
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>AI Strategic Studio</title>
+<style>*{box-sizing:border-box}body{margin:0;font-family:Arial,Tahoma,sans-serif;background:#0b1220;color:#eef2ff}header{padding:22px 18px;background:#111a2e;border-bottom:1px solid #263451}h1{margin:0;font-size:25px}header p{margin:7px 0 0;color:#94a3b8}.wrap{max-width:1100px;margin:auto;padding:18px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:#151f33;border:1px solid #263451;border-radius:16px;padding:18px;box-shadow:0 8px 25px rgba(0,0,0,.18)}.stat{font-size:25px;font-weight:bold;margin-top:10px}.muted{color:#94a3b8;font-size:13px}.ok{color:#4ade80}.section{margin-top:18px}.section h2{font-size:18px;margin:0 0 12px}.modules{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.module{padding:16px;border-radius:13px;background:#1b2740;border:1px solid #2b3a5a}.module b{display:block;margin-bottom:7px}.search{display:flex;gap:8px}.search input{flex:1;background:#0f172a;border:1px solid #334155;border-radius:10px;padding:13px;color:white;font-size:14px}.search button{background:#2563eb;color:white;border:0;border-radius:10px;padding:0 18px;font-size:14px}.matrix{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.item{background:#111a2e;border-radius:10px;padding:13px}.item strong{display:block;margin-bottom:5px}#result{line-height:1.9;white-space:pre-line}footer{text-align:center;color:#64748b;padding:25px 0;font-size:12px}@media(max-width:700px){.grid{grid-template-columns:repeat(2,1fr)}.modules{grid-template-columns:1fr}.matrix{grid-template-columns:1fr}.search button{padding:0 12px}}
+</style></head>
+<body><header><div class="wrap"><h1>AI Strategic Studio</h1><p>داشبورد تحلیلی و اتاق فکر هوش مصنوعی</p></div></header><div class="wrap">
+<div class="grid"><div class="card"><div class="muted">وضعیت سیستم</div><div class="stat ok" id="status">در حال بررسی...</div></div><div class="card"><div class="muted">موتور تحلیل</div><div class="stat">فعال</div></div><div class="card"><div class="muted">پایگاه دانش</div><div class="stat">آماده</div></div><div class="card"><div class="muted">AI Agent</div><div class="stat">آماده</div></div></div>
 <div class="section card"><h2>🔎 جستجو و تحلیل</h2><div class="search"><input id="query" placeholder="موضوع مورد نظر برای تحلیل را وارد کنید..."><button onclick="analyze()">تحلیل</button></div><p id="result" class="muted">برای شروع، موضوعی وارد کنید.</p></div>
-
-<div class="section"><h2>ماژول‌های اصلی</h2><div class="modules">
-<div class="module"><b>🧠 RAG Engine</b><span class="muted">بازیابی و ترکیب اطلاعات از منابع دانشی</span></div>
-<div class="module"><b>📚 Knowledge Base</b><span class="muted">مدیریت اسناد و منابع تحقیقاتی</span></div>
-<div class="module"><b>📊 Analysis Engine</b><span class="muted">تحلیل روندها، عوامل و سناریوها</span></div>
-<div class="module"><b>🤖 AI Agent</b><span class="muted">دستیار هوشمند برای کارهای تحلیلی</span></div>
-</div></div>
-
-<div class="section card"><h2>ماتریس پایش</h2><div class="matrix">
-<div class="item"><strong>سیاسی</strong><span class="muted">پایش تحولات و روندها</span></div>
-<div class="item"><strong>اقتصادی</strong><span class="muted">شاخص‌ها و ریسک‌های کلان</span></div>
-<div class="item"><strong>امنیتی</strong><span class="muted">رصد رویدادها و ارزیابی ریسک</span></div>
-</div></div>
-<footer>AI Strategic Studio • نسخه اولیه داشبورد</footer>
-</div>
-<script>
-fetch('/api').then(r=>r.json()).then(d=>{document.getElementById('status').textContent=d.status==='online'?'آنلاین':'آفلاین'}).catch(()=>{document.getElementById('status').textContent='خطا'});
-function analyze(){const q=document.getElementById('query').value.trim();document.getElementById('result').textContent=q?'موضوع «'+q+'» برای تحلیل ثبت شد. اتصال به موتور تحلیل در مرحله بعد فعال می‌شود.':'لطفاً یک موضوع وارد کنید.';}
-</script>
-</body>
-</html>
+<div class="section"><h2>ماژول‌های اصلی</h2><div class="modules"><div class="module"><b>🧠 RAG Engine</b><span class="muted">بازیابی و ترکیب اطلاعات از منابع دانشی</span></div><div class="module"><b>📚 Knowledge Base</b><span class="muted">مدیریت اسناد و منابع تحقیقاتی</span></div><div class="module"><b>📊 Analysis Engine</b><span class="muted">تحلیل روندها، عوامل و سناریوها</span></div><div class="module"><b>🤖 AI Agent</b><span class="muted">دستیار هوشمند برای کارهای تحلیلی</span></div></div></div>
+<div class="section card"><h2>ماتریس پایش</h2><div class="matrix"><div class="item"><strong>سیاسی</strong><span class="muted">پایش تحولات و روندها</span></div><div class="item"><strong>اقتصادی</strong><span class="muted">شاخص‌ها و ریسک‌های کلان</span></div><div class="item"><strong>امنیتی</strong><span class="muted">رصد رویدادها و ارزیابی ریسک</span></div></div></div><footer>AI Strategic Studio • نسخه اولیه</footer></div>
+<script>fetch('/api').then(r=>r.json()).then(d=>{document.getElementById('status').textContent=d.status==='online'?'آنلاین':'آفلاین'}).catch(()=>document.getElementById('status').textContent='خطا');async function analyze(){const q=document.getElementById('query').value.trim();const r=document.getElementById('result');if(!q){r.textContent='لطفاً یک موضوع وارد کنید.';return}r.textContent='در حال تحلیل...';try{const res=await fetch('/api/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:q})});const d=await res.json();r.textContent='خلاصه: '+d.analysis.summary+'\nسیاسی: '+d.analysis.political+'\nاقتصادی: '+d.analysis.economic+'\nامنیتی: '+d.analysis.security+'\n\n'+d.analysis.next_step}catch(e){r.textContent='خطا در ارتباط با موتور تحلیل.'}}</script></body></html>
