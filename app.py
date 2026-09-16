@@ -1,3 +1,4 @@
+import base64
 import json
 import logging
 import os
@@ -19,6 +20,12 @@ class AnalysisRequest(BaseModel):
 class VisualRequest(BaseModel):
     query: str
     analysis: str = ""
+
+
+class ImageRequest(BaseModel):
+    query: str
+    analysis: str = ""
+    kind: str = "infographic"
 
 
 def get_openai_key():
@@ -64,6 +71,7 @@ def api_status():
         "openai_configured": bool(key),
         "openai_key_source": key_name,
         "model": get_model(),
+        "image_model": "gpt-image-2",
     }
 
 
@@ -77,6 +85,7 @@ def diagnostics():
         "key_length": len(key) if key else 0,
         "key_variables_present": openai_names,
         "model": get_model(),
+        "image_model": "gpt-image-2",
     }
 
 
@@ -167,7 +176,7 @@ def generate_visuals(request: VisualRequest):
 - فقط شهرهای بزرگ و شناخته‌شده را در locations قرار بده؛ مختصات را تولید نکن، فقط نام شهر را بده.
 - حداکثر 8 شهر و حداکثر 6 بُعد اینفوگرافیک.
 - score یک ارزیابی کیفی مدل بین 0 تا 100 است و نباید به‌عنوان آمار واقعی معرفی شود.
-- اگر موضوع جغرافیای خاورمیانه ندارد، همچنان چند مرکز مرتبط را انتخاب کن و در note صریحاً بگو که ارتباط تحلیلی است.
+- اگر موضوع جغرافیای خاورمیانه ندارد، ارتباط تحلیلی را در note صریحاً بیان کن.
 - از ادعا درباره کنترل سرزمینی، موقعیت نیروها، هدف‌گیری یا دستورالعمل عملیاتی خودداری کن.
 """
 
@@ -189,5 +198,75 @@ def generate_visuals(request: VisualRequest):
             "status": "error",
             "message": "تولید داده بصری ناموفق بود: " + (str(e).strip()[:500] or "خطای نامشخص"),
             "model": get_model(),
+            "key_source": key_name,
+        }
+
+
+@app.post("/api/generate-image")
+def generate_image(request: ImageRequest):
+    """Generate an illustrative AI visual for the current briefing."""
+    q = request.query.strip()
+    if not q:
+        return {"status": "error", "message": "موضوع تحلیل وارد نشده است."}
+
+    api_key, key_name = get_openai_key()
+    if not api_key:
+        return {"status": "error", "message": "کلید OpenAI در runtime تنظیم نشده است."}
+
+    kind = request.kind.strip().lower() or "infographic"
+    if kind not in {"infographic", "map"}:
+        kind = "infographic"
+
+    if kind == "map":
+        visual_prompt = (
+            "یک نقشه تصویری بسیار تمیز و مینیمال از خاورمیانه برای یک گزارش تحلیلی بساز. "
+            "کشورها و شهرهای اصلی را به‌صورت جغرافیایی معقول نمایش بده، بدون نمایش عملیات نظامی، "
+            "اهداف، مسیر حمله، استقرار نیرو یا اطلاعات تاکتیکی. روی نقشه فقط عنوان و چند برچسب عمومی "
+            "مرتبط با موضوع قرار بده. این تصویر صرفاً illustrative است و نباید به‌عنوان نقشه مرجع جغرافیایی تلقی شود."
+        )
+    else:
+        visual_prompt = (
+            "یک اینفوگرافیک حرفه‌ای و مدرن برای یک اتاق فکر راهبردی بساز؛ با ترکیب نمودارهای ساده، "
+            "کارت‌های شاخص و تایپوگرافی خوانا. از متن کوتاه فارسی یا برچسب‌های انگلیسی ساده استفاده کن، "
+            "از اعداد ساختگی به‌عنوان آمار واقعی استفاده نکن و هیچ دستورالعمل عملیاتی یا هدف‌گیری نظامی نمایش نده. "
+            "تمرکز روی روندها، روابط و پیامدهای تحلیلی باشد."
+        )
+
+    prompt = f"""
+{visual_prompt}
+
+موضوع گزارش: {q}
+خلاصه تحلیل: {request.analysis[:5000]}
+سبک: dark professional intelligence dashboard, clean layout, high information density, editorial quality.
+"""
+
+    try:
+        client = OpenAI(api_key=api_key)
+        result = client.images.generate(
+            model="gpt-image-2",
+            prompt=prompt,
+            size="1536x1024",
+        )
+        item = result.data[0]
+        b64 = getattr(item, "b64_json", None)
+        if not b64:
+            return {
+                "status": "error",
+                "message": "مدل تصویر پاسخ قابل نمایش برنگرداند.",
+                "image_model": "gpt-image-2",
+            }
+        return {
+            "status": "ok",
+            "kind": kind,
+            "image_model": "gpt-image-2",
+            "mime": "image/png",
+            "image_data": "data:image/png;base64," + base64.b64encode(base64.b64decode(b64)).decode("ascii"),
+        }
+    except Exception as e:
+        logger.exception("IMAGE_GENERATION_ERROR")
+        return {
+            "status": "error",
+            "message": "تولید تصویر ناموفق بود: " + (str(e).strip()[:500] or "خطای نامشخص"),
+            "image_model": "gpt-image-2",
             "key_source": key_name,
         }
