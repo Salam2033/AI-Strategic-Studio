@@ -55,6 +55,7 @@ class PublishRequest(BaseModel):
     query: str
     analysis: str = ""
     visuals: dict = {}
+    language: str = "fa"
 
 
 def get_openai_key():
