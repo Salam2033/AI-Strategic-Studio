@@ -309,11 +309,17 @@ def enhanced_export(request: ExportRequest):
 @app.post("/api/publish-text")
 def enhanced_publish(request: PublishRequest):
     sources = sources_for_report(request.query, request.analysis)
-    lines = ["📌 گزارش تحلیلی — AI Strategic Studio", "", "موضوع: " + request.query.strip(), "", "🧠 جمع‌بندی", clean_text(request.analysis)[:6500]]
+    lang = (getattr(request, "language", "fa") or "fa").lower()
+    if lang == "ar":
+        lines = ["📌 تقرير تحليلي — AI Strategic Studio", "", "الموضوع: " + request.query.strip(), "", "🧠 الخلاصة", clean_text(request.analysis)[:6500]]
+    elif lang == "en":
+        lines = ["📌 Analytical Report — AI Strategic Studio", "", "Topic: " + request.query.strip(), "", "🧠 Summary", clean_text(request.analysis)[:6500]]
+    else:
+        lines = ["📌 گزارش تحلیلی — AI Strategic Studio", "", "موضوع: " + request.query.strip(), "", "🧠 جمع‌بندی", clean_text(request.analysis)[:6500]]
     if sources:
-        lines += ["", "🔎 منابع مرتبط"]
+        lines += ["", "🔎 " + {"fa":"منابع مرتبط","ar":"المصادر ذات الصلة","en":"Related Sources"}.get(lang, "منابع مرتبط")]
         lines += [f"• {s.get('title','')} — {s.get('group','')} — {s.get('url','')}" for s in sources[:8]]
-    lines += ["", "این متن برای انتشار در شبکه‌های اجتماعی آماده شده و ادعاهای حساس باید پیش از انتشار راستی‌آزمایی شوند."]
+    lines += ["", {"fa":"این متن برای انتشار در شبکه‌های اجتماعی آماده شده و ادعاهای حساس باید پیش از انتشار راستی‌آزمایی شوند.","ar":"هذا النص مُعدّ للنشر على منصات التواصل، ويجب التحقق من الادعاءات الحساسة قبل النشر.","en":"This text is prepared for social platforms; sensitive claims should be verified before publication."}.get(lang, "")]
     return {"status":"ok", "text":"\n".join(lines), "sources":sources}
 
 
