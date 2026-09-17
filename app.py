@@ -48,6 +48,7 @@ class ExportRequest(BaseModel):
     analysis: str = ""
     visuals: dict = {}
     format: str = "pdf"
+    language: str = "fa"
 
 
 class PublishRequest(BaseModel):
