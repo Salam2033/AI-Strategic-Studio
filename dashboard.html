@@ -99,6 +99,65 @@ html[dir="ltr"] .panelHead,html[dir="ltr"] .topbar{text-align:left}
 }
 .feature button:hover,
 .feature a:hover { color:#111111!important; }
+</style>
+<style>
+/* Palette matched to the approved reference image */
+:root{
+  --bg:#f7f9fb;
+  --panel:#ffffff;
+  --panel2:#f8fafc;
+  --line:#dfe5ea;
+  --text:#151a20;
+  --muted:#667085;
+  --blue:#2f7df4;
+  --cyan:#18b7aa;
+  --purple:#7657e8;
+  --orange:#ff7a00;
+  --green:#22a65a;
+  --yellow:#ffb000;
+}
+
+/* Dark charcoal top/header bars */
+header,.topbar{
+  background:linear-gradient(135deg,#252c34,#3d4650)!important;
+  color:#fff!important;
+}
+header a,header button,.topbar *{color:#fff!important}
+.nav{background:transparent!important}
+.nav button{color:#f3f4f6!important}
+.nav button.active{background:#69737d!important;color:#fff!important;border:1px solid #87919b!important}
+
+/* Bright page and white cards */
+body{background:#f7f9fb!important;color:#111827!important}
+.feature,.analysisPanel,.quickCard{
+  background:#fff!important;
+  border-color:#e1e6eb!important;
+  box-shadow:0 8px 24px rgba(30,41,59,.08)!important;
+}
+.feature h3,.feature p,.feature button,.feature a,
+.quickCard b,.quickCard span,.quickCard p,
+.analysisPanel h2,.analysisPanel h3,.analysisPanel p,
+.analysisPanel li,.analysisPanel label,.analysisPanel small,
+.analysisPanel .status,.analysisPanel .analysisResult{
+  color:#111111!important;
+}
+
+/* Reference-image accent colors */
+.feature:nth-of-type(1) .ico{background:#22a65a!important}
+.feature:nth-of-type(2) .ico{background:#ff7a00!important}
+.feature:nth-of-type(3) .ico{background:#ffb000!important}
+.feature:nth-of-type(4) .ico{background:#2f7df4!important}
+.feature:nth-of-type(5) .ico{background:#7657e8!important}
+.primary{background:linear-gradient(135deg,#22a65a,#18b7aa)!important}
+.hero{background:linear-gradient(135deg,#fff,#f2f8f3)!important;border-color:#dfe8e2!important}
+.hero h2{color:#151a20!important}
+.hero p{color:#667085!important}
+.query{background:#fff!important;color:#111!important;border-color:#cfd8df!important}
+.langSwitch{background:#fff!important;border-color:#dfe5ea!important}
+.langBtn{color:#4b5563!important}
+.langBtn.active{background:#374151!important;color:#fff!important}
+.status{background:#fffdf1!important;color:#66521a!important;border-color:#f2d77b!important}
+.footer{color:#667085!important}
 </style></head>
 <body>
 <div class="app">
