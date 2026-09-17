@@ -159,6 +159,8 @@ def rtl_ready(text):
 def build_source_report(req, sources):
     q = req.query.strip()
     analysis = clean_text(req.analysis)
+    lang = (getattr(req, "language", "fa") or "fa").lower()
+    labels = {"fa": {"title":"AI Strategic Studio — گزارش تحلیلی","topic":"موضوع","analysis":"تحلیل","dims":"شاخص‌های تحلیلی","sources":"منابع مرتبط"}, "ar": {"title":"AI Strategic Studio — تقرير تحليلي","topic":"الموضوع","analysis":"التحليل","dims":"المؤشرات التحليلية","sources":"المصادر ذات الصلة"}, "en": {"title":"AI Strategic Studio — Analytical Report","topic":"Topic","analysis":"Analysis","dims":"Analytical Indicators","sources":"Related Sources"}}.get(lang, {"title":"AI Strategic Studio — گزارش تحلیلی","topic":"موضوع","analysis":"تحلیل","dims":"شاخص‌های تحلیلی","sources":"منابع مرتبط"})
     visuals = req.visuals or {}
     tmp = Path(tempfile.mkdtemp(prefix="strategic_report_sources_"))
     map_png = tmp / "map_infographic.png"
@@ -177,19 +179,19 @@ def build_source_report(req, sources):
         body = ParagraphStyle("body_rtl", parent=styles["BodyText"], fontName=font_name, fontSize=9.5, leading=15, alignment=TA_RIGHT)
         title = ParagraphStyle("title_rtl", parent=styles["Title"], fontName=font_name, fontSize=16, leading=22, alignment=TA_RIGHT)
         doc = SimpleDocTemplate(str(out), pagesize=A4, rightMargin=15*mm, leftMargin=15*mm, topMargin=15*mm, bottomMargin=15*mm)
-        story = [Paragraph(rtl_ready("AI Strategic Studio — گزارش تحلیلی"), title), Spacer(1, 4*mm), Paragraph(rtl_ready("موضوع: " + q), body), Spacer(1, 4*mm), RLImage(str(map_png), width=170*mm, height=95*mm), Spacer(1, 4*mm), Paragraph(rtl_ready("تحلیل"), title)]
+        story = [Paragraph(rtl_ready(labels["title"]), title), Spacer(1, 4*mm), Paragraph(rtl_ready(labels["topic"] + ": " + q), body), Spacer(1, 4*mm), RLImage(str(map_png), width=170*mm, height=95*mm), Spacer(1, 4*mm), Paragraph(rtl_ready(labels["analysis"]), title)]
         for block in re.split(r"\n{2,}", analysis):
             if block.strip():
                 story.append(Paragraph(rtl_ready(block.replace("\n", "<br/>")), body)); story.append(Spacer(1, 2*mm))
         dims = (visuals.get("infographic", {}) if isinstance(visuals, dict) else {}).get("dimensions", [])
         if dims:
-            story += [Spacer(1, 3*mm), Paragraph(rtl_ready("شاخص‌های تحلیلی"), title)]
+            story += [Spacer(1, 3*mm), Paragraph(rtl_ready(labels["dims"]), title)]
             data = [[rtl_ready("بُعد"), rtl_ready("امتیاز کیفی"), rtl_ready("یادداشت")]] + [[rtl_ready(str(x.get("label",""))), str(x.get("score","")), rtl_ready(str(x.get("note","")))] for x in dims[:6]]
             table = Table(data, colWidths=[35*mm, 30*mm, 110*mm])
             table.setStyle(TableStyle([("BACKGROUND", (0,0), (-1,0), colors.HexColor("#17335b")), ("TEXTCOLOR", (0,0), (-1,0), colors.white), ("GRID", (0,0), (-1,-1), 0.5, colors.grey), ("ALIGN", (0,0), (-1,-1), "RIGHT"), ("FONTSIZE", (0,0), (-1,-1), 8), ("VALIGN", (0,0), (-1,-1), "TOP")]))
             story.append(table)
         if sources:
-            story += [Spacer(1, 4*mm), Paragraph(rtl_ready("منابع مرتبط"), title)]
+            story += [Spacer(1, 4*mm), Paragraph(rtl_ready(labels["sources"]), title)]
             for i, s in enumerate(sources[:10], 1):
                 text = f"{i}. {s.get('title','')}<br/>{s.get('group','')} — {s.get('officiality','')}<br/>{s.get('url','')}"
                 story += [Paragraph(text, body), Spacer(1, 2*mm)]
@@ -197,22 +199,22 @@ def build_source_report(req, sources):
     else:
         out = tmp / "ai-strategic-report.docx"
         doc = Document()
-        doc.add_heading("AI Strategic Studio — گزارش تحلیلی", 0)
-        doc.add_paragraph("موضوع: " + q)
+        doc.add_heading(labels["title"], 0)
+        doc.add_paragraph(labels["topic"] + ": " + q)
         doc.add_picture(str(map_png), width=Inches(6.4))
-        doc.add_heading("تحلیل", level=1)
+        doc.add_heading(labels["analysis"], level=1)
         for block in re.split(r"\n{2,}", analysis):
             if block.strip(): doc.add_paragraph(block.strip())
         dims = (visuals.get("infographic", {}) if isinstance(visuals, dict) else {}).get("dimensions", [])
         if dims:
-            doc.add_heading("شاخص‌های تحلیلی", level=1)
+            doc.add_heading(labels["dims"], level=1)
             table = doc.add_table(rows=1, cols=3)
             for i, h in enumerate(["بُعد", "امتیاز کیفی", "یادداشت"]): table.rows[0].cells[i].text = h
             for x in dims[:6]:
                 cells = table.add_row().cells
                 cells[0].text = str(x.get("label", "")); cells[1].text = str(x.get("score", "")); cells[2].text = str(x.get("note", ""))
         if sources:
-            doc.add_heading("منابع مرتبط", level=1)
+            doc.add_heading(labels["sources"], level=1)
             for i, s in enumerate(sources[:10], 1):
                 doc.add_paragraph(f"{i}. {s.get('title','')} — {s.get('group','')} — {s.get('officiality','')}\n{s.get('url','')}")
         doc.save(out)
