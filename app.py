@@ -27,17 +27,20 @@ logger = logging.getLogger("uvicorn.error")
 
 class AnalysisRequest(BaseModel):
     query: str
+    language: str = "fa"
 
 
 class VisualRequest(BaseModel):
     query: str
     analysis: str = ""
+    language: str = "fa"
 
 
 class ImageRequest(BaseModel):
     query: str
     analysis: str = ""
     kind: str = "infographic"
+    language: str = "fa"
 
 
 class ExportRequest(BaseModel):
@@ -107,9 +110,11 @@ def analyze(request: AnalysisRequest):
     try:
         model = get_model()
         client = OpenAI(api_key=api_key)
+        lang = (request.language or "fa").lower()
+        lang_name = {"fa": "فارسی", "ar": "العربية", "en": "English"}.get(lang, "فارسی")
         response = client.responses.create(
             model=model,
-            instructions=("تو موتور تحلیل راهبردی AI Strategic Studio هستی. پاسخ را به فارسی، بی‌طرف و تحلیلی ارائه کن. "
+            instructions=(f"تو موتور تحلیل راهبردی AI Strategic Studio هستی. پاسخ را به زبان {lang_name} و به‌صورت بی‌طرف و تحلیلی ارائه کن. "
                           "واقعیت، تحلیل و عدم قطعیت را از هم جدا کن و از ساختن منبع یا داده خودداری کن. "
                           "موضوع را در چهار بخش خلاصه، سیاسی، اقتصادی و امنیتی بررسی کن."),
             input=q,
@@ -128,8 +133,11 @@ def generate_visuals(request: VisualRequest):
     api_key, key_name = get_openai_key()
     if not api_key:
         return {"status": "error", "message": "کلید OpenAI در runtime تنظیم نشده است."}
+    lang = (request.language or "fa").lower()
+    lang_name = {"fa": "فارسی", "ar": "العربية", "en": "English"}.get(lang, "فارسی")
     prompt = f"""
-برای داشبورد فارسی AI Strategic Studio، برای موضوع زیر داده بصری ساختاریافته تولید کن.
+برای داشبورد AI Strategic Studio، برای موضوع زیر داده بصری ساختاریافته تولید کن.
+زبان خروجی همه عنوان‌ها، برچسب‌ها و یادداشت‌ها: {lang_name}
 موضوع: {q}
 متن تحلیل موجود (ممکن است خالی باشد): {request.analysis[:9000]}
 
@@ -169,7 +177,9 @@ def generate_image(request: ImageRequest):
         visual_prompt = "یک نقشه تصویری بسیار تمیز و مینیمال از خاورمیانه برای یک گزارش تحلیلی بساز؛ شهرهای اصلی را معقول نمایش بده، بدون عملیات نظامی، اهداف، مسیر حمله، استقرار نیرو یا اطلاعات تاکتیکی. تصویر صرفاً illustrative است."
     else:
         visual_prompt = "یک اینفوگرافیک حرفه‌ای و مدرن برای یک اتاق فکر راهبردی بساز؛ نمودارهای ساده، کارت‌های شاخص و تایپوگرافی خوانا؛ از اعداد ساختگی به‌عنوان آمار واقعی استفاده نکن؛ تمرکز روی روندها، روابط و پیامدهای تحلیلی باشد."
-    prompt = f"{visual_prompt}\nموضوع گزارش: {q}\nخلاصه تحلیل: {request.analysis[:5000]}\nسبک: dark professional intelligence dashboard, clean layout, editorial quality."
+    lang = (request.language or "fa").lower()
+    lang_name = {"fa": "Persian", "ar": "Arabic", "en": "English"}.get(lang, "Persian")
+    prompt = f"{visual_prompt}\nزبان متن‌های داخل تصویر: {lang_name}\nموضوع گزارش: {q}\nخلاصه تحلیل: {request.analysis[:5000]}\nسبک: dark professional intelligence dashboard, clean layout, editorial quality."
     try:
         client = OpenAI(api_key=api_key)
         result = client.images.generate(model="gpt-image-2", prompt=prompt, size="1536x1024")
