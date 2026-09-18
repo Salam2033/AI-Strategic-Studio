@@ -57,7 +57,7 @@ class SameOriginHTMLMiddleware(BaseHTTPMiddleware):
         return StarletteResponse(
             content=text.encode("utf-8"),
             status_code=response.status_code,
-            headers={k: v for k, v in response.headers.items() if k.lower() != "content-length"},
+            headers={**{k: v for k, v in response.headers.items() if k.lower() not in {"content-length", "etag", "cache-control", "expires", "last-modified"}}, "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0", "Pragma": "no-cache", "Expires": "0"},
             media_type="text/html",
         )
 
