@@ -5,346 +5,50 @@
 <title>AI Strategic Studio</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
-:root{--bg:#030b16;--panel:#07182a;--panel2:#0a2035;--line:#193a5b;--text:#edf6ff;--muted:#8ea6bf;--blue:#2463ff;--cyan:#13c7c2;--purple:#725cff;--orange:#ff922e;--green:#48e39b}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 75% 5%,#102d54 0,transparent 28%),linear-gradient(135deg,#020812,#061426 55%,#03101d);color:var(--text);font-family:Tahoma,"Segoe UI",sans-serif;line-height:1.75;min-height:100vh}.app{display:grid;grid-template-columns:225px 1fr;min-height:100vh}.sidebar{border-left:1px solid var(--line);background:linear-gradient(180deg,#061224,#03101e);padding:18px 14px;position:sticky;top:0;height:100vh}.brand{display:flex;gap:10px;align-items:center;padding:0 5px 18px;border-bottom:1px solid #17324e}.logo{width:43px;height:43px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#2364ff,#10b8ad);font-weight:900;font-size:20px}.brand h1{font-size:15px;margin:0}.brand small{font-size:9px;color:var(--muted)}.nav{margin-top:18px;display:grid;gap:6px}.nav button{border:0;background:transparent;color:#c3d2e2;text-align:right;padding:11px 12px;border-radius:10px;font:inherit;cursor:pointer}.nav button.active,.nav button:hover{background:linear-gradient(90deg,#1748bb,#123d8f);color:#fff}.nav i{font-style:normal;margin-left:9px}.navTitle{color:#637c96;font-size:9px;margin:16px 10px 3px}.tools button{display:flex;align-items:center;gap:9px}.sideStatus{position:absolute;bottom:18px;right:14px;left:14px;border:1px solid #1c4568;background:#06192b;border-radius:12px;padding:10px;font-size:10px;color:#9bb0c6}.greenDot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#12df9a;margin-left:7px}.main{padding:22px 22px 32px;max-width:1200px;width:100%;margin:auto}.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.topbar .title{font-size:12px;color:#91a8c0}.topActions{display:flex;gap:8px}.iconBtn{width:35px;height:35px;border:1px solid var(--line);background:#081a2c;color:#d8e7f7;border-radius:50%;display:grid;place-items:center}.hero{height:160px;border:1px solid #1a4a78;border-radius:18px;background:radial-gradient(circle at 78% 50%,#123f78 0,transparent 30%),linear-gradient(100deg,#061b32,#082b4a);padding:27px 34px;position:relative;overflow:hidden;box-shadow:0 15px 40px #0005}.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-60px;top:-70px;border:1px solid #2563eb66;box-shadow:0 0 70px #1769e855 inset}.hero h2{font-size:28px;margin:0 0 4px;position:relative;z-index:2}.hero p{color:#a9bdd2;margin:0;font-size:12px;position:relative;z-index:2}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}.feature{min-height:145px;border:1px solid var(--line);border-radius:15px;background:linear-gradient(145deg,#0b2036,#071525);padding:17px;position:relative;box-shadow:0 12px 30px #0003}.feature .ico{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;position:absolute;left:15px;top:15px;font-size:17px}.fBlue .ico{background:#1e4dcc}.fCyan .ico{background:#0aa99e}.fOrange .ico{background:#d9791e}.fPurple .ico{background:#604bd6}.fText{margin-left:43px}.feature h3{font-size:15px;margin:0 0 7px}.feature p{font-size:10px;color:#9db2c8;margin:0 0 12px}.feature button{border:0;background:transparent;color:#78baff;font:inherit;font-size:10px;cursor:pointer}.analysisPanel{margin-top:18px;border:1px solid #1c4c76;border-radius:17px;background:linear-gradient(160deg,#071c31,#061425);padding:20px 22px}.panelHead{display:flex;justify-content:space-between;align-items:center}.panelHead h2{font-size:19px;margin:0}.panelHead small{color:var(--muted)}textarea,input{font:inherit}.query{width:100%;min-height:105px;margin-top:13px;background:#03101f;border:1px solid #244a70;color:#e8f4ff;border-radius:12px;padding:13px;resize:vertical;outline:none}.run{margin-top:10px;display:flex;justify-content:flex-start}.primary{background:linear-gradient(100deg,#2262ff,#0cbdb4);color:#fff;border:0;border-radius:11px;padding:12px 28px;font:inherit;font-weight:800;cursor:pointer}.primary:disabled{opacity:.5}.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}.chip{border:1px solid #254565;background:#071a2d;color:#a9bfd4;border-radius:20px;padding:6px 11px;font:inherit;font-size:10px;cursor:pointer}.quick{margin-top:18px;border:1px solid var(--line);border-radius:17px;background:#061629;padding:18px}.quick h2{font-size:16px;margin:0 0 12px}.quickGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.quickCard{border:1px solid #1c4163;background:#061526;border-radius:12px;padding:15px;min-height:110px}.quickCard b{font-size:12px}.quickCard span{display:block;color:var(--muted);font-size:9px;margin-top:5px}.result{margin-top:15px}.hidden{display:none}.status{font-size:10px;color:#9eb4c9;margin-top:8px}.error{color:#ff9eac}.success{color:#70e7ac}.analysisResult{border:1px solid var(--line);background:#061426;border-radius:12px;padding:18px;min-height:180px;color:#dcecff}.analysisResult h2,.analysisResult h3{color:#8ff0cf}.mapBox{height:460px;border-radius:12px;overflow:hidden;border:1px solid var(--line);margin-top:12px}.bars{display:grid;gap:12px;margin-top:15px}.barRow{display:grid;grid-template-columns:95px 1fr 38px;gap:8px;align-items:center;font-size:10px}.track{height:10px;background:#142a43;border-radius:9px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#2865ff,#13c5bd)}.export{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.secondary{background:#0a1e32;border:1px solid var(--line);color:#d8e8f8;border-radius:10px;padding:10px 14px;font:inherit;cursor:pointer}.imageWrap{margin-top:12px;min-height:300px;border:1px solid var(--line);background:#03101d;border-radius:12px;display:grid;place-items:center;overflow:hidden}.imageWrap img{max-width:100%;height:auto}.publish{width:100%;min-height:220px;margin-top:12px;background:#03101d;border:1px solid var(--line);border-radius:12px;color:#e4efff;padding:12px}.footer{color:#536b84;font-size:9px;text-align:center;padding:24px}
-@media(max-width:900px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto;border-left:0;border-bottom:1px solid var(--line);padding:12px}.brand{border:0;padding-bottom:10px}.nav{display:flex;overflow:auto;margin-top:4px}.nav button{white-space:nowrap}.navTitle,.tools,.sideStatus{display:none}.main{padding:14px}.hero{height:auto;min-height:150px}.grid{grid-template-columns:1fr 1fr}.quickGrid{grid-template-columns:1fr 1fr}}
-@media(max-width:560px){.grid{grid-template-columns:1fr}.hero h2{font-size:21px}.hero{padding:22px}.main{padding:10px}.topbar{margin-bottom:10px}.feature{min-height:125px}.quickGrid{grid-template-columns:1fr 1fr}.primary{width:100%}.barRow{grid-template-columns:70px 1fr 34px}}
+:root{--bg:#020817;--panel:#071a31;--panel2:#09233f;--line:#1167a8;--white:#fff;--muted:#c7d7e8;--blue:#168cff;--cyan:#15c6d8;--green:#22c66b;--orange:#ff8a00;--yellow:#ffc21a;--purple:#8066ff}*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Tahoma,"Segoe UI",sans-serif;background:#020817;color:#fff}body{background:radial-gradient(circle at 15% 15%,rgba(0,125,255,.16),transparent 25%),radial-gradient(circle at 85% 5%,rgba(20,100,255,.13),transparent 22%),linear-gradient(180deg,#010611,#061a35 52%,#020817);overflow-x:hidden}body:before{content:"";position:fixed;inset:0;z-index:-1;opacity:.5;background-image:radial-gradient(circle,#fff 0 1px,transparent 1.5px),radial-gradient(circle,#38bdf8 0 1px,transparent 1.5px);background-size:97px 103px,151px 137px;background-position:14px 20px,55px 40px}.app{min-height:100vh}.top{height:72px;display:flex;align-items:center;justify-content:space-between;padding:10px 22px;background:rgba(2,11,27,.88);border-bottom:1px solid #0b5e9e;backdrop-filter:blur(14px);position:sticky;top:0;z-index:20}.brand{display:flex;align-items:center;gap:12px}.logo{width:45px;height:45px;border-radius:13px;display:grid;place-items:center;font-weight:900;background:linear-gradient(135deg,#157bff,#12c9c1);box-shadow:0 0 25px #168cff66}.brand b{font-size:18px}.brand small{display:block;color:#b9cbe0;font-size:9px}.top-actions{display:flex;align-items:center;gap:8px}.search{width:260px;background:#061b35;border:1px solid #1478bd;border-radius:12px;padding:9px 12px;color:#fff}.btn{border:1px solid #237db7;background:#09233f;color:#fff;border-radius:10px;padding:9px 12px;cursor:pointer}.btn.active{background:#166dcc}.lang{display:flex;gap:3px}.lang button{border:0;background:transparent;color:#fff;padding:8px 10px;border-radius:8px;cursor:pointer}.lang button.active{background:#22a65a}.layout{display:grid;grid-template-columns:210px 1fr;max-width:1500px;margin:auto}.sidebar{min-height:calc(100vh - 72px);padding:18px 12px;border-left:1px solid #0b4777;background:linear-gradient(180deg,rgba(4,20,40,.96),rgba(2,10,24,.96))}.nav{display:grid;gap:6px}.nav button{width:100%;text-align:right;border:1px solid transparent;background:transparent;color:#fff;padding:12px;border-radius:11px;font:inherit;cursor:pointer}.nav button:hover,.nav button.active{background:linear-gradient(90deg,#0d4f91,#123b68);border-color:#167bc1}.side-status{margin-top:18px;padding:12px;border:1px solid #0e619d;border-radius:12px;background:#061a31;color:#fff;font-size:10px}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#20d477;box-shadow:0 0 10px #20d477;margin-left:6px}.main{padding:20px;min-width:0}.view.hidden{display:none}.hero{position:relative;min-height:310px;border:1px solid #147bc5;border-radius:20px;overflow:hidden;background:linear-gradient(120deg,rgba(3,18,40,.96),rgba(4,32,66,.78));box-shadow:0 0 45px rgba(0,120,255,.14);padding:38px}.hero-copy{position:relative;z-index:5;max-width:50%}.hero h1{font-size:30px;margin:0 0 8px;color:#fff}.hero p{color:#e5f1ff;margin:0;line-height:2}.earth-zone{position:absolute;right:2%;top:15px;width:58%;height:285px}.earth{position:absolute;right:13%;top:34px;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle at 34% 27%,#e8fbff 0,#5dd9ff 7%,#176bb7 35%,#063b78 63%,#02152e 100%);box-shadow:inset -25px -25px 55px #000a,0 0 35px #168cff99,0 0 100px #168cff44}.earth:before{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(ellipse at 45% 30%,rgba(46,180,107,.95) 0 7%,transparent 8%),radial-gradient(ellipse at 62% 45%,rgba(52,184,104,.95) 0 9%,transparent 10%),radial-gradient(ellipse at 38% 63%,rgba(38,151,91,.9) 0 8%,transparent 9%),radial-gradient(ellipse at 70% 68%,rgba(36,145,84,.9) 0 6%,transparent 7%);filter:blur(.3px)}.earth:after{content:"";position:absolute;inset:-13px;border:2px solid #39a9ff88;border-radius:50%;transform:rotate(-18deg) scaleY(.38);box-shadow:0 0 20px #1aa3ff88}.orbit{position:absolute;right:2%;top:50px;width:440px;height:220px;border:2px solid #16a5ff;box-shadow:0 0 18px #168cffaa,0 0 45px #168cff55;border-radius:50%;transform:rotate(-12deg);animation:spin 12s linear infinite}.orbit2{position:absolute;right:0;top:32px;width:470px;height:245px;border:1px solid #3bd0ff99;border-radius:50%;transform:rotate(22deg);animation:spin2 18s linear infinite}.news{position:absolute;width:76px;height:43px;border:1px solid #18aaff;background:#041a34e8;border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;box-shadow:0 0 14px #168cff66}.n1{right:5%;top:10px}.n2{left:3%;top:80px}.n3{right:13%;bottom:3px}.n4{left:12%;bottom:25px}@keyframes spin{to{transform:rotate(348deg)}}@keyframes spin2{to{transform:rotate(-338deg)}}.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:16px;max-height:570px;overflow:auto;padding:2px}.card{position:relative;min-height:145px;padding:20px 20px 18px 68px;border:1px solid #0d67a7;border-radius:16px;background:linear-gradient(145deg,rgba(5,25,50,.96),rgba(4,39,72,.9));box-shadow:0 12px 30px #0005;color:#fff;transition:.2s}.card:hover{transform:translateY(-3px);border-color:#20a9ff;box-shadow:0 0 25px #168cff33}.ico{position:absolute;left:17px;top:17px;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;color:#fff;font-size:18px}.green{background:#19a95a}.orange{background:#ff7a00}.yellow{background:#ffb900;color:#111}.blue{background:#2f80ed}.purple{background:#7657e8}.gray{background:#5b7188}.card h3{margin:0 0 7px;color:#fff;font-size:16px}.card p{margin:0 0 10px;color:#d8e7f5;font-size:10px}.card button{border:0;background:transparent;color:#5fc4ff;cursor:pointer;font:inherit}.panel{margin-top:16px;border:1px solid #0e6dab;border-radius:17px;background:linear-gradient(145deg,rgba(4,22,45,.98),rgba(5,34,62,.94));padding:19px;color:#fff}.panel h2,.panel h3,.panel p,.panel label,.panel small{color:#fff}.panel-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.query{width:100%;min-height:125px;margin-top:12px;border:1px solid #2078b4;border-radius:12px;background:#020e21;color:#fff;padding:14px;outline:none}.query::placeholder{color:#aebfd2}.primary{background:linear-gradient(100deg,#146dff,#12c6b8);border:0;color:#fff;border-radius:11px;padding:12px 22px;font-weight:800;cursor:pointer}.run{margin-top:10px}.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}.chip{background:#08233d;border:1px solid #1c6596;color:#fff;border-radius:20px;padding:6px 11px;cursor:pointer}.status{font-size:10px;margin-top:8px;color:#dcecff}.success{color:#5df0aa!important}.error{color:#ff9aaa!important}.result{margin-top:14px;line-height:2;color:#fff}.result h2,.result h3{color:#fff}.box{border:1px solid #0d67a7;background:#061a31;border-radius:14px;padding:15px;margin-top:12px;color:#fff}.links{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.link{display:block;text-decoration:none;color:#fff!important;border:1px solid #166aa1;background:#082440;border-radius:9px;padding:9px;text-align:center;font-size:10px}.search-row{display:flex;gap:8px}.search-row input{flex:1;background:#031126;border:1px solid #176aa0;border-radius:10px;padding:10px;color:#fff}.time-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.time-card{background:#08213a;border:1px solid #175f90;border-radius:11px;padding:12px;text-align:center}.time-card span{display:block;color:#c3d6e8;font-size:9px}.time-card strong{display:block;color:#fff;font-size:14px;margin-top:4px}.ticker{overflow:hidden;border:1px solid #1376b7;border-radius:10px;background:#04162d;padding:8px;margin-top:14px;white-space:nowrap}.ticker-track{display:inline-flex;gap:45px;animation:ticker 25s linear infinite}.ticker i{color:#ffc21a;font-style:normal}.ticker-item{font-size:10px;color:#fff}@keyframes ticker{to{transform:translateX(100%)}}.map{height:480px;border-radius:12px;overflow:hidden;margin-top:12px;border:1px solid #166da6}.image-wrap{min-height:300px;display:grid;place-items:center;border:1px solid #166da6;border-radius:12px;margin-top:12px;background:#020e21;overflow:hidden}.image-wrap img{max-width:100%;height:auto}.publish{width:100%;min-height:240px;margin-top:12px;background:#020e21;border:1px solid #176aa0;border-radius:12px;color:#fff;padding:12px}.footer{text-align:center;color:#9fb6cc;font-size:9px;padding:25px}.earth-title{position:absolute;right:0;bottom:8px;color:#bfe8ff;font-size:9px}@media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{min-height:auto;border-left:0;border-bottom:1px solid #0b4777}.nav{display:flex;overflow:auto}.nav button{white-space:nowrap;width:auto}.side-status{display:none}.search{width:160px}.earth-zone{width:60%}.hero-copy{max-width:48%}}@media(max-width:650px){.top{height:auto;gap:8px;flex-wrap:wrap}.top-actions{width:100%;justify-content:flex-end}.search{width:150px}.main{padding:10px}.hero{min-height:390px;padding:22px}.hero-copy{max-width:100%;position:relative;z-index:7}.hero h1{font-size:22px}.earth-zone{right:0;top:120px;width:100%;height:250px}.earth{right:26%;width:165px;height:165px}.orbit{right:3%;width:360px;height:180px}.orbit2{right:0;width:390px;height:200px}.cards{grid-template-columns:1fr;max-height:none}.links{grid-template-columns:repeat(2,1fr)}.time-grid{grid-template-columns:1fr 1fr}.panel-head{align-items:flex-start;flex-direction:column}}
 </style>
-<style>
-/* Bright strategic command-center theme */
-:root{--bg:#f6f8f2;--panel:#ffffff;--line:#dfe7d8;--text:#17351f;--muted:#607064;--green:#169447;--green2:#0f7b39;--orange:#f28c28;--yellow:#f6c744}
-body{background:linear-gradient(135deg,#ffffff 0%,#f4f8ee 48%,#fff8e6 100%);color:var(--text)}
-.langSwitch{display:flex;gap:4px;padding:4px;border:1px solid #d9e5d5;border-radius:12px;background:#fff;box-shadow:0 5px 18px rgba(32,70,40,.10)}
-.langBtn{border:0;background:transparent;color:#55705c;padding:7px 10px;border-radius:9px;cursor:pointer;font-weight:800}
-.langBtn.active{background:var(--green);color:#fff}
-html[dir="ltr"] .sidebar{border-left:0;border-right:1px solid var(--line)}
-html[dir="ltr"] .main{direction:ltr}
-html[dir="ltr"] .panelHead,html[dir="ltr"] .topbar{text-align:left}
-.sidebar{background:linear-gradient(180deg,#ffffff 0%,#f1f8ee 100%);box-shadow:8px 0 30px rgba(38,76,45,.08);border-color:#dce8d9}
-.sidebar *{color:#25452d}
-.feature,.analysisPanel,.quickCard{backdrop-filter:blur(10px);background:rgba(255,255,255,.96);border:1px solid #dce8d9;box-shadow:0 10px 28px rgba(45,76,50,.09)}
-.feature{transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
-.feature:hover{transform:translateY(-3px);border-color:#8bcf9c;box-shadow:0 15px 34px rgba(45,110,55,.14)}
-.hero{background:linear-gradient(135deg,#ffffff 0%,#eef8e9 55%,#fff4d6 100%);border:1px solid #cfe3c9;box-shadow:0 14px 35px rgba(44,85,48,.10)}
-.hero h2{color:#174d27}
-.hero p{color:#55705c}
-.primary{background:linear-gradient(135deg,#159447,#0f7b39)!important;color:#fff!important;border:none;box-shadow:0 7px 18px rgba(22,148,71,.22)}
-.query{background:#fff;border:1px solid #bfd7c1;box-shadow:inset 0 0 0 1px rgba(22,148,71,.04);color:#17351f}
-.query:focus{outline:2px solid rgba(242,140,40,.28);border-color:#f28c28}
-.chip{background:#fff!important;color:#25452d!important;border-color:#cfe0cf!important}
-.status{background:#fffdf1;border-color:#f2d77b!important;color:#66521a}
-.export button{border-color:#d8e5d5}
-.export button:first-child{background:#fff7df;border-color:#f1cc63}
-.export button:nth-child(2){background:#fff0e2;border-color:#f2ae69}
-.export button:nth-child(3){background:#eaf7ed;border-color:#9ed3a9}
-.analysisResult{background:#fbfdf9;border-color:#dce8d9}
-</style>
-<style>
-/* Neutral grayscale navigation bars */
-.sidebar{background:linear-gradient(180deg,#ffffff 0%,#eeeeee 100%)!important;border-color:#d2d2d2!important}
-.sidebar *{color:#3f3f3f}
-.nav button{color:#555!important;background:transparent}
-.nav button.active,.nav button:hover{background:linear-gradient(90deg,#4b4b4b,#777)!important;color:#fff!important}
-.navTitle{color:#777!important}
-.sideStatus{background:#f5f5f5!important;border-color:#d0d0d0!important;color:#555!important}
-.greenDot{background:#777!important}
-.topbar .title{color:#666!important}
-</style>
-<style>
-/* Dark text for top navigation bar */
-.nav button{color:#222!important}
-.nav button.active,.nav button:hover{color:#fff!important}
-.topbar .title{color:#222!important}
-</style>
-<style>
-/* High-contrast analysis text */
-.analysisPanel,
-.analysisPanel h1,
-.analysisPanel h2,
-.analysisPanel h3,
-.analysisPanel h4,
-.analysisPanel p,
-.analysisPanel li,
-.analysisPanel .analysisResult,
-.analysisPanel .result,
-.analysisPanel .summary,
-.analysisPanel .content,
-.analysisPanel .analysis-content {
-  color:#111111!important;
-}
-.analysisPanel small,
-.analysisPanel label {
-  color:#333333!important;
-}
-</style>
-<style>
-/* Black typography across dashboard cards and sections */
-.feature h3,
-.feature p,
-.feature button,
-.feature a,
-.quickCard b,
-.quickCard span,
-.quickCard p,
-.analysisPanel h2,
-.analysisPanel h3,
-.analysisPanel p,
-.analysisPanel li,
-.analysisPanel label,
-.analysisPanel small,
-.analysisPanel .status,
-.analysisPanel .analysisResult,
-.hero h2,
-.hero p {
-  color:#000000!important;
-}
-.feature button:hover,
-.feature a:hover { color:#111111!important; }
-</style>
-<style>
-/* Palette matched to the approved reference image */
-:root{
-  --bg:#f7f9fb;
-  --panel:#ffffff;
-  --panel2:#f8fafc;
-  --line:#dfe5ea;
-  --text:#151a20;
-  --muted:#667085;
-  --blue:#2f7df4;
-  --cyan:#18b7aa;
-  --purple:#7657e8;
-  --orange:#ff7a00;
-  --green:#22a65a;
-  --yellow:#ffb000;
-}
-
-/* Dark charcoal top/header bars */
-header,.topbar{
-  background:linear-gradient(135deg,#252c34,#3d4650)!important;
-  color:#fff!important;
-}
-header a,header button,.topbar *{color:#fff!important}
-.nav{background:transparent!important}
-.nav button{color:#f3f4f6!important}
-.nav button.active{background:#69737d!important;color:#fff!important;border:1px solid #87919b!important}
-
-/* Bright page and white cards */
-body{background:#f7f9fb!important;color:#111827!important}
-.feature,.analysisPanel,.quickCard{
-  background:#fff!important;
-  border-color:#e1e6eb!important;
-  box-shadow:0 8px 24px rgba(30,41,59,.08)!important;
-}
-.feature h3,.feature p,.feature button,.feature a,
-.quickCard b,.quickCard span,.quickCard p,
-.analysisPanel h2,.analysisPanel h3,.analysisPanel p,
-.analysisPanel li,.analysisPanel label,.analysisPanel small,
-.analysisPanel .status,.analysisPanel .analysisResult{
-  color:#111111!important;
-}
-
-/* Reference-image accent colors */
-.feature:nth-of-type(1) .ico{background:#22a65a!important}
-.feature:nth-of-type(2) .ico{background:#ff7a00!important}
-.feature:nth-of-type(3) .ico{background:#ffb000!important}
-.feature:nth-of-type(4) .ico{background:#2f7df4!important}
-.feature:nth-of-type(5) .ico{background:#7657e8!important}
-.primary{background:linear-gradient(135deg,#22a65a,#18b7aa)!important}
-.hero{background:linear-gradient(135deg,#fff,#f2f8f3)!important;border-color:#dfe8e2!important}
-.hero h2{color:#151a20!important}
-.hero p{color:#667085!important}
-.query{background:#fff!important;color:#111!important;border-color:#cfd8df!important}
-.langSwitch{background:#fff!important;border-color:#dfe5ea!important}
-.langBtn{color:#4b5563!important}
-.langBtn.active{background:#374151!important;color:#fff!important}
-.status{background:#fffdf1!important;color:#66521a!important;border-color:#f2d77b!important}
-.footer{color:#667085!important}
-</style>
-<style id="studio-upgrade-css">
-/* === Strategic Studio v2 command center === */
-#home{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:18px;align-items:start}
-#home>.hero{grid-column:1/-1}
-#home>.grid{grid-column:1;grid-template-columns:1fr 1fr;margin-top:0;max-height:560px;overflow:auto;padding:2px 5px 8px 2px}
-#home>.analysisPanel{grid-column:2;margin-top:0;position:sticky;top:12px}
-#home>.quick{grid-column:2;margin-top:0}
-#home>.studio-links,#home>.studio-search,#home>.studio-time,#home>.studio-ticker{grid-column:1/-1}
-.studio-hero{position:absolute;inset:0;pointer-events:none}
-.orbit-core{position:absolute;right:8%;top:50%;width:125px;height:125px;transform:translateY(-50%);border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff 0,#d9f0df 14%,#8bcfa0 42%,#28794a 72%,#173e29 100%);box-shadow:0 0 0 12px rgba(34,166,90,.08),0 0 55px rgba(34,166,90,.28);animation:studioPulse 4s ease-in-out infinite}
-.orbit-core:before,.orbit-core:after{content:"";position:absolute;border:1px solid rgba(255,255,255,.65);border-radius:50%;inset:17px 5px;transform:rotate(28deg)}
-.orbit-core:after{inset:4px 20px;transform:rotate(-28deg)}
-.orbit-ring{position:absolute;right:3%;top:50%;width:260px;height:145px;transform:translateY(-50%) rotate(-8deg);border:1px solid rgba(34,166,90,.35);border-radius:50%;animation:orbitSpin 18s linear infinite}
-.news-orbit{position:absolute;right:3%;top:50%;width:260px;height:145px;transform:translateY(-50%);animation:orbitSpin 18s linear infinite}
-.news-orbit .news-fly{position:absolute;width:92px;height:45px;border:1px solid #dfe5ea;background:rgba(255,255,255,.96);border-radius:10px;box-shadow:0 8px 20px rgba(20,40,30,.16);display:flex;align-items:center;gap:6px;padding:5px;animation:orbitCounter 18s linear infinite}
-.news-fly:nth-child(1){left:84px;top:-22px}.news-fly:nth-child(2){right:-35px;top:50px}.news-fly:nth-child(3){left:82px;bottom:-22px}.news-fly:nth-child(4){left:-35px;top:50px}
-.news-thumb{width:34px;height:34px;border-radius:7px;display:grid;place-items:center;background:linear-gradient(135deg,#22a65a,#18b7aa);color:#fff;font-size:17px;flex:none}
-.news-fly b{font-size:8px;line-height:1.35;color:#111;display:block}
-.hero-copy{position:relative;z-index:5;max-width:52%}
-@keyframes orbitSpin{to{transform:translateY(-50%) rotate(352deg)}} 
-@keyframes orbitCounter{to{transform:rotate(-352deg)}} 
-@keyframes studioPulse{50%{transform:translateY(-50%) scale(1.04)}}
-.studio-scroll{max-height:300px;overflow:auto;padding-left:4px}
-.studio-box{border:1px solid #dfe5ea;background:#fff;border-radius:15px;padding:15px;box-shadow:0 8px 24px rgba(30,41,59,.08)}
-.studio-box h3{margin:0 0 10px;color:#111;font-size:15px}
-.links-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.link-card{display:block;text-decoration:none;color:#111!important;border:1px solid #e1e6eb;border-radius:10px;padding:9px;background:#f8fafc;font-size:10px;transition:.2s}
-.link-card:hover{border-color:#22a65a;transform:translateY(-2px)}
-.studio-search-row{display:flex;gap:8px}.studio-search-row input{flex:1;border:1px solid #cfd8df;border-radius:10px;padding:10px;background:#fff;color:#111}
-.search-results{margin-top:10px;display:grid;gap:7px}.search-result{padding:9px;border:1px solid #e1e6eb;border-radius:9px;background:#fafafa}.search-result b{font-size:10px;color:#111}.search-result small{display:block;color:#667085;margin-top:2px}
-.time-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.time-card{background:#f8fafc;border:1px solid #e1e6eb;border-radius:11px;padding:12px;text-align:center}.time-card span{display:block;color:#667085;font-size:9px}.time-card strong{display:block;color:#111;font-size:14px;margin-top:4px}.clock-big{font-size:24px!important;color:#22a65a!important}
-.studio-ticker{overflow:hidden;border:1px solid #dfe5ea;background:#252c34;border-radius:12px;padding:8px 0;color:#fff}
-.ticker-track{display:inline-flex;gap:38px;white-space:nowrap;animation:tickerMove 32s linear infinite;padding-right:100%}
-.ticker-item{font-size:11px}.ticker-item i{font-style:normal;color:#ffb000;margin-left:7px}
-@keyframes tickerMove{to{transform:translateX(100%)}} 
-@media(max-width:900px){#home{grid-template-columns:1fr}#home>.grid,#home>.analysisPanel,#home>.quick,#home>.studio-links,#home>.studio-search,#home>.studio-time,#home>.studio-ticker{grid-column:1;position:static}.hero-copy{max-width:58%}.orbit-core{right:3%;width:95px;height:95px}.orbit-ring,.news-orbit{right:-2%;transform:translateY(-50%) scale(.78)}.links-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){#home>.grid{grid-template-columns:1fr;max-height:none}.hero{min-height:220px}.hero-copy{max-width:100%}.studio-hero{opacity:.65;top:55px}.time-grid{grid-template-columns:1fr}.links-grid{grid-template-columns:1fr 1fr}.studio-search-row{flex-direction:column}}
-</style><style id="space-bg-upgrade">
-html,body{background:#020817!important}
-body{background-image:radial-gradient(circle at 15% 20%,rgba(20,86,180,.18) 0,transparent 24%),radial-gradient(circle at 85% 12%,rgba(0,174,255,.12) 0,transparent 20%),linear-gradient(180deg,#020817 0%,#06152b 52%,#020817 100%)!important}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.75;background-image:radial-gradient(circle,#fff 0 1px,transparent 1.5px),radial-gradient(circle,#38bdf8 0 1px,transparent 1.5px);background-size:83px 91px,137px 121px;background-position:12px 18px,51px 37px}
-.hero{background:linear-gradient(135deg,rgba(2,12,29,.92),rgba(5,34,69,.82))!important;border-color:#1265ad!important;box-shadow:0 0 35px rgba(0,115,255,.16)}
-.studio-hero{filter:drop-shadow(0 0 18px rgba(0,136,255,.22))}
-.orbit-ring{border-color:#159cff!important;box-shadow:0 0 12px #008cff,0 0 32px rgba(0,140,255,.55);animation-duration:13s!important}
-.news-orbit{animation-duration:13s!important}
-.orbit-core{box-shadow:0 0 0 12px rgba(0,137,255,.1),0 0 55px rgba(0,137,255,.42)!important}
-.studio-box,.feature,.analysisPanel,.quickCard{background:linear-gradient(145deg,rgba(3,19,40,.96),rgba(4,30,58,.92))!important;border-color:#0b5f9f!important;color:#fff!important}
-.studio-box h3,.studio-box strong,.link-card,.search-result b{color:#fff!important}
-.link-card,.search-result{background:rgba(4,25,49,.82)!important;border-color:#0a5794!important;color:#fff!important}
-.news-fly{background:rgba(3,18,37,.96)!important;border-color:#1799ff!important;box-shadow:0 0 16px rgba(0,139,255,.3)!important}
-.ticker-track{animation-duration:24s!important}
-</style></head>
+</head>
 <body>
 <div class="app">
-<aside class="sidebar"><div class="brand"><div class="logo">AI</div><div><h1>AI Strategic Studio</h1><small>اتاق فکر و داشبورد تحلیل راهبردی</small></div></div><div class="nav"><button class="active" onclick="show('home')">⌂ داشبورد</button><button onclick="show('analysis')">🧠 تحلیل راهبردی</button><button onclick="show('image')">▣ تولید اینفوگرافیک</button><button onclick="show('map')">⌖ تولید نقشه</button><button onclick="show('export')">▤ گزارش‌گیری</button><button onclick="show('export')">⇩ خروجی‌ها</button><button onclick="show('settings')">⚙ تنظیمات</button></div><div class="navTitle">ابزارهای هوش مصنوعی</div><div class="nav tools"><button>◉ ChatGPT</button><button>✳ Claude</button><button>◇ Perplexity</button><button>✦ Gemini</button><button>◈ DeepSeek</button></div><div class="sideStatus"><span class="greenDot"></span><b>وضعیت سیستم</b><br>فعال و پایدار</div></aside>
-<main class="main"><div class="topbar"><div class="title">AI Strategic Studio</div><div class="topActions"><div class="langSwitch" role="group" aria-label="Language"><button class="langBtn active" data-lang="fa" onclick="setLanguage('fa')">فا</button><button class="langBtn" data-lang="ar" onclick="setLanguage('ar')">ع</button><button class="langBtn" data-lang="en" onclick="setLanguage('en')">EN</button></div><span class="iconBtn">◉</span><span class="iconBtn">◌</span><span class="iconBtn">◐</span></div></div>
-<div id="home" class="view"><section class="hero"><div class="studio-hero"><div class="orbit-core"></div><div class="orbit-ring"></div><div class="news-orbit"><div class="news-fly"><div class="news-thumb">📰</div><b>خبر فوری</b></div><div class="news-fly"><div class="news-thumb">🌍</div><b>منطقه</b></div><div class="news-fly"><div class="news-thumb">📊</div><b>اقتصاد</b></div><div class="news-fly"><div class="news-thumb">🛰️</div><b>تحولات</b></div></div></div><div class="hero-copy"><h2>به AI Strategic Studio خوش آمدید</h2><p>تحلیل هوشمند • تصمیمات بهتر • آینده روشن‌تر</p></div></section>
-<div class="grid"><article class="feature fBlue"><div class="ico">🧠</div><div class="fText"><h3>تحلیل راهبردی</h3><p>تحلیل جامع مسائل سیاسی، اقتصادی، نظامی و منطقه‌ای با استفاده از هوش مصنوعی.</p><button onclick="show('analysis')">شروع تحلیل ←</button></div></article><article class="feature fCyan"><div class="ico">▣</div><div class="fText"><h3>تولید اینفوگرافیک</h3><p>تبدیل داده‌ها به اینفوگرافیک‌های حرفه‌ای و تصویری.</p><button onclick="show('image')">ایجاد اینفوگرافیک ←</button></div></article><article class="feature fOrange"><div class="ico">⌖</div><div class="fText"><h3>تولید نقشه</h3><p>تحلیل جغرافیایی و تهیه نقشه‌های تحلیلی و راهبردی.</p><button onclick="show('map')">ایجاد نقشه ←</button></div></article><article class="feature fPurple"><div class="ico">▤</div><div class="fText"><h3>گزارش‌گیری</h3><p>تهیه گزارش‌های تخصصی در قالب PDF و Word با قابلیت سفارشی‌سازی.</p><button onclick="show('export')">ایجاد گزارش ←</button></div></article><article class="feature fBlue"><div class="ico">◫</div><div class="fText"><h3>منابع و داده‌ها</h3><p>دسترسی به پایگاه‌های اطلاعاتی معتبر و منابع تحلیل بین‌المللی.</p><button>مشاهده منابع ←</button></div></article><article class="feature"><div class="ico" style="background:#49617c">⚙</div><div class="fText"><h3>تنظیمات و مدیریت</h3><p>مدیریت حساب، کلیدهای API و تنظیمات سیستم.</p><button onclick="show('settings')">تنظیمات ←</button></div></article></div>
-<section class="analysisPanel"><div class="panelHead"><div><h2>تحلیل راهبردی 🧠</h2><small>موضوع مورد نظر خود را وارد کنید تا تحلیل جامع و چندبعدی دریافت کنید.</small></div><span class="status" id="homeStatus">سیستم آماده است</span></div><textarea id="query" class="query" placeholder="مثال: بررسی تحولات سیاسی ایران، ارزیابی ریسک‌های منطقه‌ای..."></textarea><div class="run"><button class="primary" id="runBtn" onclick="runWorkflow()">اجرای تحلیل کامل ✦</button></div><div class="chips"><button class="chip" onclick="example('امنیت انرژی خاورمیانه')">تحلیل منطقه‌ای</button><button class="chip" onclick="example('روندهای اقتصادی منطقه')">تحلیل اقتصادی</button><button class="chip" onclick="example('تحولات ژئوپلیتیک')">تحلیل ژئوپلیتیک</button></div><div id="workflowStatus" class="status">آماده اجرا</div></section>
-<section class="quick"><h2>ابزارهای سریع ⚡</h2><div class="quickGrid"><div class="quickCard"><b>◉ راهنمای استفاده</b><span>آموزش و مستندات کاربری</span></div><div class="quickCard"><b>◫ ماژول‌های اصلی</b><span>دسترسی به همه ماژول‌ها</span></div><div class="quickCard"><b>📚 Knowledge Base</b><span>مدیریت دانش و منابع سازمانی</span></div><div class="quickCard"><b>🧠 RAG Engine</b><span>پاسخ به سوالات تخصصی با داده‌های واقعی</span></div></div></section>
-<!-- Strategic Studio live command-center widgets -->
-<section class="studio-links studio-box">
-  <h3>🔗 لینک‌های سریع و منابع</h3>
-  <div id="linksGrid" class="links-grid">
-    <a class="link-card" href="https://www.reuters.com/" target="_blank" rel="noopener">Reuters</a>
-    <a class="link-card" href="https://apnews.com/" target="_blank" rel="noopener">AP News</a>
-    <a class="link-card" href="https://www.bbc.com/" target="_blank" rel="noopener">BBC</a>
-    <a class="link-card" href="https://www.aljazeera.com/" target="_blank" rel="noopener">Al Jazeera</a>
-    <a class="link-card" href="https://www.csis.org/" target="_blank" rel="noopener">CSIS</a>
-    <a class="link-card" href="https://www.iiss.org/" target="_blank" rel="noopener">IISS</a>
-    <a class="link-card" href="https://www.inss.org.il/" target="_blank" rel="noopener">INSS</a>
-    <a class="link-card" href="https://www.un.org/" target="_blank" rel="noopener">United Nations</a>
-  </div>
-</section>
-<section class="studio-search studio-box">
-  <h3>🔎 جست‌وجوی سریع در منابع</h3>
-  <div class="studio-search-row"><input id="studioSearchInput" placeholder="مثلاً: تحولات خاورمیانه، انرژی، امنیت منطقه‌ای"><button class="primary" onclick="studioSearch()">جست‌وجو</button></div>
-  <div id="studioSearchResults" class="search-results"><small>عبارت مورد نظر را وارد کنید.</small></div>
-</section>
-<section class="studio-time studio-box">
-  <h3>🗓 تاریخ و زمان</h3>
-  <div class="time-grid">
-    <div class="time-card"><span>شمسی / جلالی</span><strong id="jalaliDate">—</strong></div>
-    <div class="time-card"><span>هجری قمری</span><strong id="hijriDate">—</strong></div>
-    <div class="time-card"><span>میلادی</span><strong id="gregDate">—</strong></div>
-    <div class="time-card"><span>ساعت محلی دستگاه</span><strong id="liveClock" class="clock-big">—</strong></div>
-  </div>
-</section>
-<section class="studio-ticker" aria-label="مهم‌ترین اخبار">
-  <div id="tickerTrack" class="ticker-track">
-    <span class="ticker-item"><i>●</i> در حال دریافت مهم‌ترین عناوین خبری از مرکز منابع...</span>
-    <span class="ticker-item"><i>●</i> AI Strategic Studio</span>
-  </div>
-</section></div>
-<div id="analysis" class="view hidden"><section class="analysisPanel"><div class="panelHead"><h2>تحلیل راهبردی</h2><button class="secondary" onclick="show('home')">بازگشت</button></div><div id="analysisResult" class="analysisResult">هنوز تحلیلی اجرا نشده است.</div></section></div>
-<div id="map" class="view hidden"><section class="analysisPanel"><div class="panelHead"><h2>تولید نقشه</h2><button class="secondary" onclick="generateVisuals()">تولید مجدد</button></div><div id="mapStatus" class="status">با اجرای تحلیل کامل، نقشه تولید می‌شود.</div><div id="leafletMap" class="mapBox"></div></section></div>
-<div id="image" class="view hidden"><section class="analysisPanel"><div class="panelHead"><h2>تولید اینفوگرافیک تصویری</h2><button class="secondary" onclick="generateImage('infographic')">تولید تصویر</button></div><div id="imageStatus" class="status">برای تولید تصویر، ابتدا موضوع تحلیل را وارد کنید.</div><div id="imageWrap" class="imageWrap"><div>هنوز تصویری تولید نشده است.</div></div></section></div>
-<div id="export" class="view hidden"><section class="analysisPanel"><div class="panelHead"><h2>گزارش‌گیری و خروجی</h2></div><div class="export"><button class="primary" onclick="exportReport('pdf')">دانلود PDF</button><button class="secondary" onclick="exportReport('docx')">دانلود Word</button><button class="secondary" onclick="preparePublish()">ساخت متن انتشار</button></div><div id="exportStatus" class="status">ابتدا تحلیل کامل را اجرا کنید.</div><textarea id="publishText" class="publish" placeholder="متن انتشار اینجا قرار می‌گیرد..."></textarea></section></div>
-<div id="settings" class="view hidden"><section class="analysisPanel"><div class="panelHead"><h2>تنظیمات و وضعیت اتصال</h2></div><div id="settingsStatus" class="analysisResult">در حال بررسی...</div></section></div>
-<div class="footer">AI Strategic Studio | Powered by OpenAI | خروجی‌های تحلیلی باید با منابع معتبر راستی‌آزمایی شوند.</div>
-</main></div>
+<header class="top"><div class="brand"><div class="logo">AI</div><div><b>AI Strategic Studio</b><small>تحلیل • اطلاعات • راهبرد</small></div></div><div class="top-actions"><input class="search" id="globalSearch" placeholder="جست‌وجوی منابع، تحلیل‌ها..."><div class="lang"><button data-lang="fa" class="active" onclick="setLanguage('fa')">فا</button><button data-lang="ar" onclick="setLanguage('ar')">ع</button><button data-lang="en" onclick="setLanguage('en')">EN</button></div></div></header>
+<div class="layout"><aside class="sidebar"><nav class="nav"><button class="active" onclick="show('home')">⌂ داشبورد</button><button onclick="show('analysis')">🧠 تحلیل راهبردی</button><button onclick="show('image')">▣ تولید اینفوگرافیک</button><button onclick="show('map')">⌖ تولید نقشه</button><button onclick="show('export')">▤ گزارش‌گیری</button><button onclick="show('settings')">⚙ تنظیمات</button></nav><div class="side-status"><span class="dot"></span><b>سیستم فعال</b><br>AI Strategic Studio آماده دریافت موضوع تحلیل است.</div></aside>
+<main class="main">
+<section id="home" class="view"><section class="hero"><div class="hero-copy"><h1>به AI Strategic Studio خوش آمدید</h1><p>تحلیل راهبردی چندزبانه با رابط کاربری حرفه‌ای، پس‌زمینه فضایی و نمایش زنده اطلاعات.</p></div><div class="earth-zone"><div class="orbit"></div><div class="orbit2"></div><div class="earth"></div><div class="news n1">📰 خبر</div><div class="news n2">🌍 منطقه</div><div class="news n3">📊 اقتصاد</div><div class="news n4">🛰️ تحولات</div><div class="earth-title">کره زمین و مدارهای خبری تحلیلی</div></div></section>
+<div class="cards"><article class="card"><div class="ico green">🧠</div><h3>تحلیل راهبردی</h3><p>تحلیل جامع مسائل سیاسی، اقتصادی، امنیتی و منطقه‌ای با هوش مصنوعی.</p><button onclick="show('analysis')">شروع تحلیل ←</button></article><article class="card"><div class="ico orange">▣</div><h3>تولید اینفوگرافیک</h3><p>تبدیل تحلیل و داده‌ها به خروجی تصویری حرفه‌ای.</p><button onclick="show('image')">ایجاد اینفوگرافیک ←</button></article><article class="card"><div class="ico yellow">⌖</div><h3>تولید نقشه</h3><p>نمایش تحلیلی جغرافیایی و نقشه‌های مرتبط.</p><button onclick="show('map')">ایجاد نقشه ←</button></article><article class="card"><div class="ico blue">▤</div><h3>گزارش‌گیری</h3><p>خروجی PDF و Word و متن آماده انتشار.</p><button onclick="show('export')">ایجاد گزارش ←</button></article><article class="card"><div class="ico purple">◫</div><h3>منابع و داده‌ها</h3><p>دسترسی به منابع خبری، پژوهشی و رسمی مرتبط.</p><button onclick="document.querySelector('.studio-links').scrollIntoView({behavior:'smooth'})">مشاهده منابع ←</button></article><article class="card"><div class="ico gray">⚙</div><h3>تنظیمات و مدیریت</h3><p>وضعیت API، زبان و تنظیمات سیستم.</p><button onclick="show('settings')">تنظیمات ←</button></article></div>
+<section class="panel"><div class="panel-head"><div><h2>تحلیل راهبردی 🧠</h2><small>موضوع را وارد کنید تا تحلیل چندبعدی تولید شود.</small></div><span id="homeStatus" class="status">در حال بررسی اتصال...</span></div><textarea id="query" class="query" placeholder="موضوع مورد نظر برای تحلیل را وارد کنید..."></textarea><div class="run"><button id="runBtn" class="primary" onclick="runWorkflow()">اجرای تحلیل کامل ✦</button></div><div class="chips"><button class="chip" onclick="example('تحولات ژئوپلیتیک خاورمیانه')">ژئوپلیتیک</button><button class="chip" onclick="example('امنیت انرژی خاورمیانه')">انرژی</button><button class="chip" onclick="example('روندهای اقتصادی منطقه')">اقتصاد</button></div><div id="workflowStatus" class="status">آماده اجرا</div></section>
+<section class="box studio-links"><h3>🔗 منابع و لینک‌های سریع</h3><div class="links"><a class="link" href="https://www.reuters.com/" target="_blank">Reuters</a><a class="link" href="https://apnews.com/" target="_blank">AP</a><a class="link" href="https://www.bbc.com/" target="_blank">BBC</a><a class="link" href="https://www.aljazeera.com/" target="_blank">Al Jazeera</a><a class="link" href="https://www.csis.org/" target="_blank">CSIS</a><a class="link" href="https://www.iiss.org/" target="_blank">IISS</a><a class="link" href="https://www.inss.org.il/" target="_blank">INSS</a><a class="link" href="https://www.un.org/" target="_blank">UN</a></div></section>
+<section class="box"><h3>🔎 جست‌وجوی منابع</h3><div class="search-row"><input id="studioSearchInput" placeholder="مثلاً تحولات خاورمیانه، انرژی، امنیت منطقه‌ای"><button class="primary" onclick="studioSearch()">جست‌وجو</button></div><div id="studioSearchResults" class="result">عبارت مورد نظر را وارد کنید.</div></section>
+<section class="box"><h3>🗓 تاریخ و زمان</h3><div class="time-grid"><div class="time-card"><span>هجری شمسی</span><strong id="jalaliDate">—</strong></div><div class="time-card"><span>هجری قمری</span><strong id="hijriDate">—</strong></div><div class="time-card"><span>میلادی</span><strong id="gregDate">—</strong></div><div class="time-card"><span>ساعت دستگاه</span><strong id="liveClock">—</strong></div></div></section>
+<section class="ticker"><div id="tickerTrack" class="ticker-track"><span class="ticker-item"><i>●</i> در حال دریافت مهم‌ترین عناوین خبری...</span><span class="ticker-item">AI Strategic Studio</span></div></section></section>
+<section id="analysis" class="view hidden"><section class="panel"><div class="panel-head"><h2>تحلیل راهبردی</h2><button class="btn" onclick="show('home')">بازگشت</button></div><div id="analysisResult" class="result">هنوز تحلیلی اجرا نشده است.</div></section></section>
+<section id="map" class="view hidden"><section class="panel"><div class="panel-head"><h2>تولید نقشه</h2><button class="btn" onclick="generateVisuals()">تولید مجدد</button></div><div id="mapStatus" class="status">با اجرای تحلیل کامل، نقشه تولید می‌شود.</div><div id="leafletMap" class="map"></div></section></section>
+<section id="image" class="view hidden"><section class="panel"><div class="panel-head"><h2>تولید اینفوگرافیک تصویری</h2><button class="btn" onclick="generateImage('infographic')">تولید تصویر</button></div><div id="imageStatus" class="status">برای تولید تصویر ابتدا موضوع تحلیل را وارد کنید.</div><div id="imageWrap" class="image-wrap">هنوز تصویری تولید نشده است.</div></section></section>
+<section id="export" class="view hidden"><section class="panel"><div class="panel-head"><h2>گزارش‌گیری و انتشار</h2></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="primary" onclick="exportReport('pdf')">دانلود PDF</button><button class="btn" onclick="exportReport('docx')">دانلود Word</button><button class="btn" onclick="preparePublish()">متن انتشار</button></div><div id="exportStatus" class="status">ابتدا تحلیل کامل را اجرا کنید.</div><textarea id="publishText" class="publish" placeholder="متن مناسب برای واتس‌اپ، اینستاگرام و فیس‌بوک..."></textarea></section></section>
+<section id="settings" class="view hidden"><section class="panel"><h2>تنظیمات و وضعیت اتصال</h2><div id="settingsStatus" class="result">در حال بررسی...</div></section></section>
+<footer class="footer">AI Strategic Studio | Powered by AI | اطلاعات مهم را با منابع معتبر راستی‌آزمایی کنید.</footer>
+</main></div></div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-let currentQuery='',currentAnalysis='',lastVisuals={},mapObj=null,layer=null;
+let currentQuery='',currentAnalysis='',lastVisuals={},mapObj=null,layer=null,currentLanguage=localStorage.getItem('ais_language')||'fa';
 const coords={"تهران":[35.689,51.389],"ریاض":[24.714,46.675],"آنکارا":[39.933,32.86],"استانبول":[41.008,28.978],"قاهره":[30.044,31.236],"بغداد":[33.315,44.366],"دمشق":[33.514,36.277],"بیروت":[33.894,35.502],"صنعا":[15.369,44.191],"مسقط":[23.588,58.383],"دوحه":[25.285,51.531],"ابوظبی":[24.454,54.377],"کویت":[29.376,47.977],"عمان":[31.954,35.911],"اورشلیم":[31.768,35.214],"تل‌آویو":[32.085,34.782]};
+const I18N={fa:{dir:'rtl',nav:['⌂ داشبورد','🧠 تحلیل راهبردی','▣ تولید اینفوگرافیک','⌖ تولید نقشه','▤ گزارش‌گیری','⚙ تنظیمات'],hero:'به AI Strategic Studio خوش آمدید',sub:'تحلیل راهبردی چندزبانه با رابط کاربری حرفه‌ای، پس‌زمینه فضایی و نمایش زنده اطلاعات.',placeholder:'موضوع مورد نظر برای تحلیل را وارد کنید...',full:'اجرای تحلیل کامل ✦'},ar:{dir:'rtl',nav:['⌂ لوحة التحكم','🧠 التحليل الاستراتيجي','▣ إنشاء إنفوغرافيك','⌖ إنشاء خريطة','▤ التقارير','⚙ الإعدادات'],hero:'مرحباً بك في AI Strategic Studio',sub:'تحليل استراتيجي متعدد اللغات بواجهة احترافية وخلفية فضائية.',placeholder:'أدخل الموضوع المطلوب لتحليله...',full:'تشغيل التحليل الكامل ✦'},en:{dir:'ltr',nav:['⌂ Dashboard','🧠 Strategic Analysis','▣ Infographic','⌖ Map','▤ Reports','⚙ Settings'],hero:'Welcome to AI Strategic Studio',sub:'Multilingual strategic analysis with a professional space-themed interface.',placeholder:'Enter a topic to analyze...',full:'Run Full Analysis ✦'}};
 function esc(x){return String(x??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;')}
 function md(x){let s=esc(x||'').replace(/\r?\n/g,'\n').replace(/^### (.+)$/gm,'<h3>$1</h3>').replace(/^## (.+)$/gm,'<h2>$1</h2>').replace(/^# (.+)$/gm,'<h2>$1</h2>').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/^\s*[-*] (.+)$/gm,'<li>$1</li>');s=s.replace(/((?:<li>.*<\/li>\s*)+)/g,'<ul>$1</ul>');return s.split(/\n{2,}/).map(p=>p.trim().startsWith('<h')||p.trim().startsWith('<ul>')?p:'<p>'+p.replace(/\n/g,'<br>')+'</p>').join('')}
 async function api(path,body){const r=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});let d={};try{d=await r.json()}catch(e){}if(!r.ok)throw new Error(d.message||d.detail||'خطای سرور');return d}
-function show(id){document.querySelectorAll('.view').forEach(v=>{v.classList.add('hidden');v.classList.remove('active')});const el=document.getElementById(id);if(el){el.classList.remove('hidden');el.classList.add('active')}document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));if(id==='home')document.querySelector('.nav button').classList.add('active');if(id==='map'&&mapObj)setTimeout(()=>mapObj.invalidateSize(),100)}
+function show(id){document.querySelectorAll('.view').forEach(v=>v.classList.add('hidden'));const el=document.getElementById(id);if(el)el.classList.remove('hidden');document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));const map={'home':0,'analysis':1,'image':2,'map':3,'export':4,'settings':5};if(map[id]!==undefined)document.querySelectorAll('.nav button')[map[id]].classList.add('active');if(id==='map'&&mapObj)setTimeout(()=>mapObj.invalidateSize(),100)}
 function example(t){document.getElementById('query').value=t;document.getElementById('query').focus()}
-async function boot(){try{const r=await fetch('/api');const d=await r.json();const configured=!!d.openai_configured;document.getElementById('homeStatus').innerHTML=configured?'<span class="success">اتصال OpenAI فعال</span>':'<span class="error">کلید OpenAI در runtime پیدا نشد</span>';document.getElementById('settingsStatus').innerHTML='<b>وضعیت API:</b> '+(configured?'فعال':'نیازمند تنظیم')+'<br><small>مدل: '+esc(d.model||'AI')+'</small>'}catch(e){document.getElementById('homeStatus').innerHTML='<span class="error">خطا در بررسی API</span>'}}
+async function boot(){try{const r=await fetch('/api');const d=await r.json();const ok=!!d.openai_configured;document.getElementById('homeStatus').innerHTML=ok?'<span class="success">اتصال OpenAI فعال</span>':'<span class="error">کلید OpenAI در runtime پیدا نشد</span>';document.getElementById('settingsStatus').innerHTML='<b>وضعیت API:</b> '+(ok?'فعال':'نیازمند تنظیم')+'<br>مدل: '+esc(d.model||'AI')}catch(e){document.getElementById('homeStatus').innerHTML='<span class="error">خطا در بررسی API</span>'}}
 function ensureMap(){if(mapObj)return;mapObj=L.map('leafletMap').setView([30,45],4);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap'}).addTo(mapObj)}
-function renderMap(data){ensureMap();if(layer)layer.clearLayers();layer=L.layerGroup().addTo(mapObj);let pts=[];(data.locations||[]).forEach(x=>{const c=coords[x.city];if(!c)return;pts.push(c);L.circleMarker(c,{radius:8,weight:2,fillOpacity:.8,color:'#59a7ff',fillColor:'#59a7ff'}).bindPopup('<b>'+esc(x.city)+'</b><br>'+esc(x.note||'مرتبط با موضوع تحلیل')).addTo(layer)});if(pts.length)mapObj.fitBounds(pts,{padding:[25,25],maxZoom:6});document.getElementById('mapStatus').textContent='نقشه تحلیلی آماده شد.'}
-function renderInfo(info){lastVisuals.infographic=info}
-async function generateVisuals(){if(!currentQuery)return;try{const d=await api('/api/generate-visuals',{query:currentQuery,analysis:currentAnalysis,language:currentLanguage});if(d.status!=='ok')throw new Error(d.message||'خطا');lastVisuals=d.visuals||{};renderMap(lastVisuals.map||{});renderInfo(lastVisuals.infographic||{})}catch(e){document.getElementById('mapStatus').innerHTML='<span class="error">'+esc(e.message)+'</span>'}}
+function renderMap(data){ensureMap();if(layer)layer.clearLayers();layer=L.layerGroup().addTo(mapObj);let pts=[];(data.locations||[]).forEach(x=>{const c=coords[x.city];if(!c)return;pts.push(c);L.circleMarker(c,{radius:8,weight:2,color:'#31a9ff',fillColor:'#31a9ff',fillOpacity:.85}).bindPopup('<b>'+esc(x.city)+'</b><br>'+esc(x.note||'مرتبط با موضوع تحلیل')).addTo(layer)});if(pts.length)mapObj.fitBounds(pts,{padding:[25,25],maxZoom:6});document.getElementById('mapStatus').textContent='نقشه تحلیلی آماده شد.'}
+async function generateVisuals(){if(!currentQuery)return;try{const d=await api('/api/generate-visuals',{query:currentQuery,analysis:currentAnalysis,language:currentLanguage});if(d.status!=='ok')throw new Error(d.message||'خطا');lastVisuals=d.visuals||{};renderMap(lastVisuals.map||{})}catch(e){document.getElementById('mapStatus').innerHTML='<span class="error">'+esc(e.message)+'</span>'}}
 async function generateImage(kind){if(!currentQuery){show('home');document.getElementById('workflowStatus').innerHTML='<span class="error">ابتدا یک موضوع تحلیل وارد کنید.</span>';return}document.getElementById('imageStatus').textContent='در حال تولید تصویر AI...';try{const d=await api('/api/generate-image',{query:currentQuery,analysis:currentAnalysis,kind,language:currentLanguage});if(d.status!=='ok')throw new Error(d.message||'خطا');document.getElementById('imageWrap').innerHTML='<img src="'+d.image_data+'" alt="AI Strategic Studio visual">';document.getElementById('imageStatus').innerHTML='<span class="success">تصویر آماده شد.</span>';show('image')}catch(e){document.getElementById('imageStatus').innerHTML='<span class="error">'+esc(e.message)+'</span>'}}
-async function runWorkflow(){const q=document.getElementById('query').value.trim();if(!q)return;currentQuery=q;const btn=document.getElementById('runBtn');btn.disabled=true;document.getElementById('workflowStatus').textContent='در حال اجرای تحلیل AI...';try{const a=await api('/api/analyze',{query:q,language:currentLanguage});if(a.status!=='ok')throw new Error(a.message||'خطای تحلیل');currentAnalysis=a.analysis?.summary||'';document.getElementById('analysisResult').innerHTML=md(currentAnalysis);document.getElementById('workflowStatus').innerHTML='<span class="success">✓ تحلیل AI آماده شد؛ در حال تولید نقشه...</span>';await generateVisuals();document.getElementById('workflowStatus').innerHTML='<span class="success">✓ تحلیل + نقشه آماده شد.</span>';show('analysis')}catch(e){document.getElementById('workflowStatus').innerHTML='<span class="error">'+esc(e.message)+'</span>';document.getElementById('analysisResult').innerHTML='<span class="error">'+esc(e.message)+'</span>'}finally{btn.disabled=false}}
+async function runWorkflow(){const q=document.getElementById('query').value.trim();if(!q)return;currentQuery=q;const btn=document.getElementById('runBtn');btn.disabled=true;document.getElementById('workflowStatus').textContent='در حال اجرای تحلیل AI...';try{const a=await api('/api/analyze',{query:q,language:currentLanguage});if(a.status!=='ok')throw new Error(a.message||'خطای تحلیل');currentAnalysis=a.analysis?.summary||'';document.getElementById('analysisResult').innerHTML=md(currentAnalysis);document.getElementById('workflowStatus').innerHTML='<span class="success">✓ تحلیل آماده شد؛ در حال تولید نقشه...</span>';await generateVisuals();document.getElementById('workflowStatus').innerHTML='<span class="success">✓ تحلیل + نقشه آماده شد.</span>';show('analysis')}catch(e){document.getElementById('workflowStatus').innerHTML='<span class="error">'+esc(e.message)+'</span>';document.getElementById('analysisResult').innerHTML='<span class="error">'+esc(e.message)+'</span>'}finally{btn.disabled=false}}
 async function exportReport(format){if(!currentQuery)return;document.getElementById('exportStatus').textContent='در حال ساخت گزارش...';try{const d=await api('/api/export-report',{query:currentQuery,analysis:currentAnalysis,visuals:lastVisuals,format,language:currentLanguage});if(d.status!=='ok')throw new Error(d.message||'خطا');const a=document.createElement('a');a.href=d.file_data;a.download=d.filename||('strategic-report.'+format);a.click();document.getElementById('exportStatus').innerHTML='<span class="success">گزارش آماده شد.</span>'}catch(e){document.getElementById('exportStatus').innerHTML='<span class="error">'+esc(e.message)+'</span>'}}
 async function preparePublish(){if(!currentQuery)return;try{const d=await api('/api/publish-text',{query:currentQuery,analysis:currentAnalysis,visuals:lastVisuals,language:currentLanguage});if(d.status!=='ok')throw new Error(d.message||'خطا');document.getElementById('publishText').value=d.text||'';document.getElementById('exportStatus').textContent='متن انتشار آماده شد.'}catch(e){document.getElementById('exportStatus').innerHTML='<span class="error">'+esc(e.message)+'</span>'}}
-boot();
-</script>
-<script>
-let currentLanguage=localStorage.getItem('ais_language')||'fa';
-const I18N={
-fa:{dir:'rtl',nav:['⌂ داشبورد','🧠 تحلیل راهبردی','▣ تولید اینفوگرافیک','⌖ تولید نقشه','▤ گزارش‌گیری','⇩ خروجی‌ها','⚙ تنظیمات'],hero:'به AI Strategic Studio خوش آمدید',heroSub:'تحلیل هوشمند • تصمیمات بهتر • آینده روشن‌تر',analysis:'تحلیل راهبردی',start:'شروع تحلیل ←',full:'اجرای تحلیل کامل ✦',placeholder:'موضوع مورد نظر را برای تحلیل وارد کنید...',exportPdf:'دانلود PDF',exportWord:'دانلود Word',publish:'ساخت متن انتشار',ready:'آماده اجرا'},
-ar:{dir:'rtl',nav:['⌂ لوحة التحكم','🧠 التحليل الاستراتيجي','▣ إنشاء إنفوغرافيك','⌖ إنشاء خريطة','▤ التقارير','⇩ المخرجات','⚙ الإعدادات'],hero:'مرحباً بك في AI Strategic Studio',heroSub:'تحليل ذكي • قرارات أفضل • رؤية أوضح',analysis:'التحليل الاستراتيجي',start:'بدء التحليل ←',full:'تشغيل التحليل الكامل ✦',placeholder:'أدخل الموضوع المطلوب لتحليله...',exportPdf:'تنزيل PDF',exportWord:'تنزيل Word',publish:'إنشاء نص للنشر',ready:'جاهز للتنفيذ'},
-en:{dir:'ltr',nav:['⌂ Dashboard','🧠 Strategic Analysis','▣ Infographic','⌖ Map','▤ Reports','⇩ Outputs','⚙ Settings'],hero:'Welcome to AI Strategic Studio',heroSub:'Intelligent analysis • Better decisions • Clearer outlook',analysis:'Strategic Analysis',start:'Start Analysis ←',full:'Run Full Analysis ✦',placeholder:'Enter a topic to analyze...',exportPdf:'Download PDF',exportWord:'Download Word',publish:'Create Publishing Text',ready:'Ready'}
-};
-function setLanguage(lang){
- currentLanguage=lang;localStorage.setItem('ais_language',lang);document.documentElement.lang=lang;document.documentElement.dir=I18N[lang].dir;
- document.querySelectorAll('.langBtn').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));
- const t=I18N[lang];
- document.querySelectorAll('.nav button').forEach((b,i)=>{if(i<7)b.textContent=t.nav[i]});
- const hero=document.querySelector('.hero h2'), heroSub=document.querySelector('.hero p');if(hero)hero.textContent=t.hero;if(heroSub)heroSub.textContent=t.heroSub;
- const q=document.getElementById('query');if(q)q.placeholder=t.placeholder;
- const run=document.getElementById('runBtn');if(run)run.textContent=t.full;
- document.querySelectorAll('.export button')[0].textContent=t.exportPdf;
- document.querySelectorAll('.export button')[1].textContent=t.exportWord;
- document.querySelectorAll('.export button')[2].textContent=t.publish;
- document.querySelectorAll('.panelHead h2').forEach(x=>{if(x.textContent.includes('تحلیل')||x.textContent.includes('التحليل')||x.textContent.includes('Analysis'))x.textContent=t.analysis});
-}
-setLanguage(currentLanguage);
-</script>
-<script id="studio-upgrade-js">
-function updateStudioClock(){
-  const now=new Date();
-  const fmt=(locale,opts)=>new Intl.DateTimeFormat(locale,opts).format(now);
-  const dateOpts={year:'numeric',month:'long',day:'numeric'};
-  document.getElementById('jalaliDate').textContent=fmt('fa-IR-u-ca-persian',dateOpts);
-  document.getElementById('hijriDate').textContent=fmt('ar-SA-u-ca-islamic-umalqura',dateOpts);
-  document.getElementById('gregDate').textContent=fmt('en-US',dateOpts);
-  document.getElementById('liveClock').textContent=fmt(currentLanguage==='en'?'en-US':'fa-IR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-}
-setInterval(updateStudioClock,1000); updateStudioClock();
-
-async function studioSearch(){
-  const q=document.getElementById('studioSearchInput').value.trim();
-  const box=document.getElementById('studioSearchResults');
-  if(!q){box.innerHTML='<small>یک عبارت جست‌وجو وارد کنید.</small>';return}
-  box.innerHTML='<small>در حال جست‌وجوی منابع معتبر...</small>';
-  try{
-    const d=await api('/api/source-search',{query:q,language:currentLanguage});
-    const rows=d.sources||d.results||[];
-    if(!rows.length){box.innerHTML='<small>نتیجه‌ای پیدا نشد.</small>';return}
-    box.innerHTML=rows.slice(0,8).map(x=>{
-      const title=esc(x.title||x.name||'منبع');
-      const url=x.url||x.link||'';
-      return '<div class="search-result"><b>'+title+'</b><small>'+esc(x.category||x.domain||'منبع معتبر')+(url?' · <a href="'+esc(url)+'" target="_blank" rel="noopener">مشاهده منبع</a>':'')+'</small></div>'
-    }).join('');
-    refreshTicker(rows);
-  }catch(e){box.innerHTML='<small class="error">'+esc(e.message)+'</small>'}
-}
-function refreshTicker(rows){
-  const track=document.getElementById('tickerTrack');
-  if(!rows||!rows.length)return;
-  const items=rows.slice(0,10).map((x,i)=>'<span class="ticker-item"><i>●</i>'+esc(x.title||x.name||('خبر مهم '+(i+1)))+'</span>').join('');
-  track.innerHTML=items+items;
-}
-async function loadStudioTicker(){
-  try{
-    const d=await api('/api/source-search',{query:'مهم‌ترین اخبار امروز خاورمیانه و جهان',language:currentLanguage});
-    refreshTicker(d.sources||d.results||[]);
-  }catch(e){
-    const track=document.getElementById('tickerTrack');
-    track.innerHTML='<span class="ticker-item"><i>●</i> مرکز خبر فعال است؛ برای دریافت عناوین زنده از بخش جست‌وجو استفاده کنید.</span><span class="ticker-item"><i>●</i> AI Strategic Studio</span>';
-  }
-}
-loadStudioTicker();
+async function studioSearch(){const q=document.getElementById('studioSearchInput').value.trim(),box=document.getElementById('studioSearchResults');if(!q){box.textContent='یک عبارت جست‌وجو وارد کنید.';return}box.textContent='در حال جست‌وجوی منابع معتبر...';try{const d=await api('/api/source-search',{query:q,language:currentLanguage});const rows=d.sources||d.results||[];if(!rows.length){box.textContent='نتیجه‌ای پیدا نشد.';return}box.innerHTML=rows.slice(0,8).map(x=>'<div style="padding:8px;border-bottom:1px solid #145078"><b>'+esc(x.title||x.name||'منبع')+'</b><br><small>'+esc(x.category||x.domain||'منبع معتبر')+(x.url?' · <a style="color:#55c7ff" href="'+esc(x.url)+'" target="_blank">مشاهده منبع</a>':'')+'</small></div>').join('');refreshTicker(rows)}catch(e){box.innerHTML='<span class="error">'+esc(e.message)+'</span>'}}
+function refreshTicker(rows){const t=document.getElementById('tickerTrack');if(!rows?.length)return;const x=rows.slice(0,10).map((r,i)=>'<span class="ticker-item"><i>●</i> '+esc(r.title||r.name||('خبر '+(i+1)))+'</span>').join('');t.innerHTML=x+x}
+async function loadTicker(){try{const d=await api('/api/source-search',{query:'مهم‌ترین اخبار امروز خاورمیانه و جهان',language:currentLanguage});refreshTicker(d.sources||d.results||[])}catch(e){}}
+function setLanguage(lang){currentLanguage=lang;localStorage.setItem('ais_language',lang);document.documentElement.lang=lang;document.documentElement.dir=I18N[lang].dir;document.querySelectorAll('.lang button').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));const t=I18N[lang],nav=document.querySelectorAll('.nav button');t.nav.forEach((v,i)=>{if(nav[i])nav[i].textContent=v});document.querySelector('.hero h1').textContent=t.hero;document.querySelector('.hero p').textContent=t.sub;document.getElementById('query').placeholder=t.placeholder;document.getElementById('runBtn').textContent=t.full;updateStudioClock();}
+function updateStudioClock(){const n=new Date(),o={year:'numeric',month:'long',day:'numeric'};document.getElementById('jalaliDate').textContent=new Intl.DateTimeFormat('fa-IR-u-ca-persian',o).format(n);document.getElementById('hijriDate').textContent=new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura',o).format(n);document.getElementById('gregDate').textContent=new Intl.DateTimeFormat('en-US',o).format(n);document.getElementById('liveClock').textContent=new Intl.DateTimeFormat(currentLanguage==='en'?'en-US':'fa-IR',{hour:'2-digit',minute:'2-digit',second:'2-digit'}).format(n)}
+setInterval(updateStudioClock,1000);setLanguage(currentLanguage);boot();loadTicker();
 </script></body></html>
